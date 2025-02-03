@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %} Reviews for {{ product.product_name }} {% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="container mt-4">
+    <h2 class="text-white fade-in">Reviews for {{ product.product_name }}</h2>
+
+    <!-- Display Product Details -->
+    <div class="product-details mb-4 p-3 fade-in" style="background-color: #333; border-radius: 5px;">
+        <h3 class="text-white">Product Details</h3>
+        <p class="text-white"><strong>Price:</strong> PHP{{ product.current_price }}</p>
+        <p class="text-white"><strong>Description</strong> {{ product.description }}</p>
+        <div class="row" style="margin-top: 10px;">
+            <div class="add-cart-btn">
+                <a href="/add-to-cart/{{ product.id }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    Add
+                </a>
+            </div>
+    
+            <div class="col fade-in">
+                <a href="/add-to-wishlist/{{ product.id }}" class="btn btn-secondary"><i class="far fa-heart"></i></a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Display Reviews -->
+    <h3 class="text-white fade-in">User Reviews</h3>
+    {% if reviews %}
+        <div class="row fade-in">
+            {% for review in reviews %}
+                <div class="col-12 mb-3 fade-in">
+                    <div class="p-4 fade-in" style="background-color: white; color: black; border-radius: 5px;">
+                        <p><strong>User:</strong> {{ review.customer.username }}</p>
+                        <p><strong>Rating:</strong>
+                            {% for i in range(1, 6) %}
+                               {% if i <= review.rating %}
+                                  <i class="fas fa-star" style="color: gold;"></i>
+                               {% else %}
+                                  <i class="far fa-star" style="color: gold;"></i>
+                               {% endif %}
+                            {% endfor %}
+                         </p>                         
+                        <p><strong>Review:</strong> {{ review.review_text }}</p>
+                        <p><small>Reviewed on: {{ review.review_date.strftime('%Y-%m-%d %H:%M:%S') }}</small></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-white fade-in">No reviews yet. Be the first to review this product!</p>
+    {% endif %}
+
+    <!-- Link to Submit a Review -->
+    <a href="{{ url_for('admin.submit_review', product_id=product.id) }}" class="btn btn-primary mt-3 fade-in">Submit a Review</a>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+<style>
+    .centered-image {
+    display: block;
+    margin: 0 auto;
+    width: 700px; /* Optional, if you want to define width in CSS */
+    height: 365px; /* Optional, if you want to define height in CSS */
+    border-radius: 10px;
+}
+
+/* Fullscreen background image */
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive styling for images, including GIFs */
+img {
+  max-width: 100%;  /* Ensures image scales to fit container */
+  height: auto;     /* Maintains aspect ratio */
+  border-radius: 10px;  /* Keeps the border-radius for rounded edges */
+}
+
+/* GIF image adjustments */
+.fade-in img {
+  width: 100%;  /* Make GIFs responsive */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: keeps border-radius */
+}
+
+/* Additional responsiveness for columns and containers */
+@media (max-width: 768px) {
+  .col-md-7 img, .col-md-2 img, .col img {
+    width: 100%;  /* Ensures GIFs scale down on smaller screens */
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .col-md-7 img, .col-md-2 img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+</style>
+<section id="about-us">
+
+
+        <div class="card fade-in">
+        <h1 class="primary-heading" style="color: white; font-size: 2.2em;">About Us</h1>
+        <img src="../static/images/abu.png" alt="Image Description" class="centered-image">
+        <p class="paragraph" style="color: white; font-size: 1.1em;">
+            Welcome to Findify, your premier destination for discovering beautiful and functional furniture pieces tailored to elevate your living space. We are dedicated to curating a selection of timeless and modern designs that bring comfort, style, and inspiration into your home.
+        </p>
+
+        <h2 class="primary-heading" style="color: white; font-size: 2em;">Our Mission</h2>
+        <p class="paragraph" style="color: white; font-size: 1.1em;">
+            At Findify, our mission is to offer high-quality furniture that transforms homes into havens. We believe that furniture should reflect your personality and lifestyle, making each space uniquely yours. With a commitment to sustainability, durability, and exceptional customer service, we strive to make luxury and comfort accessible to everyone.
+        </p>
+
+        <h2 class="primary-heading" style="color: white; font-size: 2em;">Why Choose Us?</h2>
+        <ul class="paragraph" style="color: white; padding-left: 25px; font-size: 1.1em;">
+            <li><strong>Quality Craftsmanship:</strong> Every piece we offer is crafted with care and precision to ensure long-lasting durability and beauty.</li>
+            <li><strong>Diverse Selection:</strong> From classic to contemporary, our curated selection meets various design preferences and functional needs.</li>
+            <li><strong>Customer Satisfaction:</strong> We prioritize your shopping experience with reliable support, clear communication, and a hassle-free return policy.</li>
+        </ul>
+
+        <h2 class="primary-heading" style="color: white; font-size: 2em;">Our Values</h2>
+        <ul class="paragraph" style="color: white; padding-left: 25px; font-size: 1.1em;">
+            <li><strong>Integrity:</strong> We value honesty and transparency in all our interactions.</li>
+            <li><strong>Innovation:</strong> We continuously explore new designs and sustainable practices to serve our customers better.</li>
+            <li><strong>Community:</strong> We believe in building strong connections with our customers, vendors, and employees to foster a positive impact.</li>
+        </ul>
+
+        <h2 class="primary-heading" style="color: white; font-size: 2em;">Get in Touch</h2>
+        <p class="paragraph" style="color: white; font-size: 1.1em;">
+            We’re here to help make your furniture shopping experience enjoyable and fulfilling. If you have any questions, feel free to reach out at <a href="mailto:afindify@gmail.com" style="color: #5A8A79;">afindify@gmail.com</a>.
+        </p>
+
+        <p class="paragraph" style="color: white; font-size: 1.1em;">
+            Thank you for choosing Findify. We look forward to helping you create a space you’ll love.
+        </p>
+    </div>
+</section>
+
+{% endblock %}

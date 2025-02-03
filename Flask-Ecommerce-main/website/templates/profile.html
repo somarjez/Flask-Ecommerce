@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block title %} Profile {% endblock %}
+
+
+
+
+{% block body %}
+<div class="custom-bg">
+    <div class="container my-5 fade-in">
+        <div class="profile-card">
+            <!-- Left Section with Profile Picture -->
+            <div class="profile-image-section">
+                {% if customer.profile_picture %}
+                <div class="profile-img">
+                    <img src="{{ url_for('auth.get_image', filename=customer.profile_picture) }}" alt="Profile Picture">
+                </div>
+                {% else %}
+                <div class="profile-img">
+                    <span class="profile-initial">{{ customer.username[0]|upper }}</span>
+                </div>
+                {% endif %}
+
+
+
+
+                <!-- Profile Options -->
+                <div class="profile-actions">
+                    <a href="{{ url_for('auth.update_profile', customer_id=customer.id) }}" class="btn btn-primary">Update Profile</a>
+                    <a href="/change-password/{{ customer.id }}" class="btn btn-primary">Change Password</a>
+                </div>
+            </div>
+
+
+
+
+            <!-- Right Section with Information -->
+            <div class="profile-info-section">
+                <h1 class="profile-name">Welcome {{ customer.username }}</h1>
+                <p class="profile-title"></p>
+
+
+
+
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="icon-box">👤</div>
+                        <span class="username-text">{{ customer.username }}</span>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon-box">📧</div>
+                        <span class="email-text">{{ customer.email }}</span>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon-box">📞</div>
+                        <span class="contact-text">{{ customer.phone_number }}</span>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon-box">🏠</div>
+                        <span class="address-text">{{ customer.address }}</span>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon-box">📅</div>
+                        <span class="address-text">Member since: {{ customer.date_joined }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+
+
+
+
+/* Font Setup for Eyesome Script */
+@font-face {
+    font-family: 'Eyesome Script';
+    src: url('/static/fonts/EyesomeScript.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    color: black;
+    background: none;
+}
+
+
+
+
+/* Custom background for this page */
+.custom-bg {
+    background: url('/static/images/mainbgprofile2.jpg') no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+/* Container settings */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+
+
+
+.profile-card {
+    display: flex;
+    background: url('/static/images/bgprofile4.jpg') no-repeat center center;
+    background-size: cover;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    color: black;
+    margin: -30px auto;
+    padding: 40px;
+    gap: 40px;
+}
+
+
+
+
+.profile-image-section {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+
+
+
+.profile-img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f5f5f5;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+
+
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+.profile-initial {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    color: white;
+    background: #1d6071;
+}
+
+
+
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+
+
+.btn {
+    padding: 10px 13px;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+
+
+.btn-primary {
+    background: #254336;
+    color: white;
+    border: none;
+}
+
+
+
+
+.btn-primary:hover {
+    background: #2da195;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+.profile-info-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+
+
+.profile-name {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+    text-align: center;
+   
+    font-family: 'Eyesome Script', cursive;
+}
+
+
+
+
+.profile-title {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+
+
+
+.info-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+
+
+
+
+
+
+.icon-box {
+    width: 40px;
+    height: 40px;
+    background: #1d6071;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+}
+
+
+
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+@media (max-width: 768px) {
+    .profile-card {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+
+
+
+    .profile-img {
+        width: 200px;
+        height: 200px;
+    }
+
+
+
+
+    .profile-actions {
+        flex-direction: column;
+    }
+   
+}
+
+
+
+
+/* Updated styles for the information items */
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    color: white; /* Ensures all text elements are white */
+    backdrop-filter: blur(55px); /* Added blur effect */
+
+
+}
+
+
+
+
+.username-text{
+    color: white; /* Ensures all text elements are white */
+    font-weight: bold; /* Makes the username bold */
+   
+}
+.email-text, .contact-text, .address-text {
+    color: white; /* Ensures all text elements are white */
+}
+
+
+
+
+
+
+
+
+</style>
+{% endblock %}
+
+
+
+
+
+
+
+
+

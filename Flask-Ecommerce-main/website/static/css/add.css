@@ -1,0 +1,93 @@
+
+/* Style for labels */
+label {
+    font-weight: bold; /* Bold labels */
+    color: #ffffff; /* White text for labels */
+}
+
+/* Spacing for form groups */
+.form-group {
+    margin-bottom: 1rem; /* Spacing between form groups */
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: rgba(62, 109, 75, 0.8); /* Custom primary button color */
+    border: none; /* Remove default border */
+}
+
+.btn-primary:hover {
+    background-color: #284b3b; /* Darker blue on hover */
+}
+
+/* Additional styles for container */
+.container {
+    background-color: rgba(70, 61, 61, 0.8); /* Semi-transparent black background */
+    padding: 2rem; /* Padding around the container */
+    border-radius: 0.5rem; /* Rounded corners for the container */
+}
+
+
+/* Base styles for the form container */
+.container {
+    padding: 20px;
+    background-color: rgba(70, 61, 61, 0.8); /* Dark background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
+}
+
+/* Heading style */
+h2 {
+    margin-bottom: 20px;
+    text-align: center; /* Center the title */
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 15px; /* Space between form groups */
+}
+
+/* Style for labels */
+label {
+    font-weight: bold; /* Bold text for labels */
+}
+
+/* Input fields */
+.form-control,
+.form-control-file {
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 4px; /* Slight rounding of input corners */
+    transition: border-color 0.2s; /* Smooth transition for focus */
+}
+
+
+/* Adjust the form row for responsive design */
+.form-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+    margin: 0 -10px; /* Negative margin to adjust padding from columns */
+}
+
+.form-row > .form-group {
+    padding: 0 10px; /* Space between columns */
+}
+
+/* Optional: Customize the appearance of checkbox/radio inputs */
+.form-check-input {
+    margin-left: 0.5rem; /* Align checkbox/radio inputs */
+}
+
+/* Fade-in animation */
+.fade-in {
+    animation: fadeIn 0.5s; /* Fade in animation duration */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start transparent */
+    }
+    to {
+        opacity: 1; /* End fully visible */
+    }
+}
+

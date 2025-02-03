@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/e24507d923.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    
+    <style>
+        
+        /* Modernized and Sleeker Design with Subdued Green Palette */
+        :root {
+            --primary-bg: #719666;
+            --secondary-bg: #011b0f;
+            --accent-color: #f7fdff;
+            --text-primary: #0d270a;
+            --text-secondary: #ffffff;
+            --btn-hover: #4a6138;
+            --btn-danger-hover: #204b15;
+            --btn-secondary-hover: #4a6138;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-family: 'Century Gothic';
+            font-size: 2rem;
+            text-align: center;
+            padding: 0;
+            color: white; /* High contrast to ensure visibility */
+            margin-top: 120px;
+            font-weight: bold; /* Make the "Customer Management" heading bold */
+        }
+
+        .container {
+            font-family: 'Century Gothic';
+            padding: 1rem;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .table {
+            font-family: 'Century Gothic';
+            border-collapse: separate;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .table th, .table td {
+            font-family: 'Century Gothic';
+            padding: 1rem;
+            vertical-align: middle;
+            border-top: 1px solid #dee2e6;
+            font-weight: bold;
+        }
+
+        .table thead th {
+            font-family: 'Century Gothic';
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            background-color: var(--secondary-bg);
+            color: var(--accent-color);
+        }
+
+        .table tbody td {
+            font-family: 'Century Gothic';
+            background-color: var(--primary-bg);
+        }
+
+        .btnb {
+            font-family: 'Century Gothic';
+            border-radius: 30px;
+            padding: 0.75rem 1.25rem;
+            color: var(--accent-color);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            font-weight: bold;
+            text-align: center;
+            margin: 0.5rem;
+            text-decoration: none; /* Added to remove underline */
+        }
+
+        .btnb-success {
+            font-family: 'Century Gothic';
+            background-color: #0b4623;
+            border-color: #3a6f50;
+        }
+
+        .btnb-success:hover {
+            font-family: 'Century Gothic';
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        .btnb-danger {
+            font-family: 'Century Gothic';
+            background-color: #3b7a4e;
+            border-color: #a94442;
+        }
+
+        .btnb-danger:hover {
+            font-family: 'Century Gothic';
+            background-color: var(--btn-danger-hover);
+            transform: translateY(-2px);
+        }
+
+        .btnb-secondary {
+            font-family: 'Century Gothic';
+            background-color: #69856d;
+            border-color: #5a6268;
+        }
+
+        .btnb-secondary:hover {
+            font-family: 'Century Gothic';
+            background-color: var(--btn-secondary-hover);
+            transform: translateY(-2px);
+        }
+
+        .pagination .page-item .page-link {
+            color: var(--accent-color);
+            background-color: var(--secondary-bg);
+            border-color: var(--secondary-bg);
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #3a6f50;
+            border-color: #3a6f50;
+        }
+
+        .pagination .page-item:hover .page-link {
+            background-color: #2a5d47;
+        }
+
+        .page-item.disabled .page-link {
+            color: #6c757d;
+        }
+
+        .profile-img img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .profile-initial {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--text-secondary);
+            color: var(--primary-bg);
+            text-align: center;
+            line-height: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        #items {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Management</h1>
+    <li class="nav-item mx-2" id="items">
+        <a class="nav-link text-grey" href="/superadmin-page" style="color: white;"> Go Back to Dashboard <i class="fas fa-user-check"></i></a>
+    </li>
+    <div class="container fade-in" style="width: 100%; padding: 0;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Customer ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Profile</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Verified?</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Date Joined</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.username }}</td>
+                    <td>
+                        {% if customer.profile_picture %}
+                        <div class="profile-img">
+                            <img src="{{ url_for('auth.get_image', filename=customer.profile_picture) }}" alt="Profile Picture">
+                        </div>
+                        {% else %}
+                        <div class="profile-img">
+                            <span class="profile-initial">{{ customer.username[0]|upper }}</span>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td>{{ customer.email }}</td>
+                    <td>
+                        {% if customer.is_verified == 1 %}
+                            <span style="color: #ffffff;">Verified</span>
+                        {% else %}
+                            <span style="color: #490e0e;">Not Verified</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.date_joined }}</td>
+                    <td>
+                        <a href="/update-customer/{{ customer.id }}" class="btnb btnb-success">Update</a>
+                        <!-- <a href="/delete-customer/{{ customer.id }}" class="btnb btnb-danger">Delete</a> -->
+                    </td>
+                    <td><a href="{{ url_for('admin.superadmin_page') }}" class="btnb btnb-secondary"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div class="pagination justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.display_customers', page=pagination.prev_num) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                   
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                    </li>
+                   
+                    {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.display_customers', page=pagination.next_num) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

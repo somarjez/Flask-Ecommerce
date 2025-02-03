@@ -1,0 +1,331 @@
+
+
+{% block body %}
+<head>
+    <title>Sales Reports Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/e24507d923.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <style>
+            #items {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 10px;
+            list-style-type: none; 
+        }
+    </style>
+
+
+</head>
+<li class="nav-item mx-2" id="items">
+    <a class="nav-link text-grey" href="/superadmin-page" style="color: rgb(0, 0, 0);"> Go Back to Dashboard <i class="fas fa-user-check"></i></a>
+</li>
+<body class="bg-gray-100">
+    {% set chart_data = [] %}
+    {% for product, quantity, revenue, date in sales_data %}
+        {% set _ = chart_data.append([product, quantity, revenue, date]) %}
+    {% endfor %}
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Sales Reports</h1>
+            <p class="text-gray-600">Sales performance overview</p>
+        </div>
+
+        <!-- Flash Messages -->
+        <div class="messages mb-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block sm:inline">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Search Input -->
+        <div class="mb-6">
+            <input type="text" id="searchInput" placeholder="Search for products..." 
+                   class="w-full md:w-1/2 mx-auto block px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+<!-- Conditional Rendering -->
+          {% if sales_data|length == 0 %}
+          <div class="welcome-message" style="text-align: center;">
+       <h1 class="text-5xl font-bold">Welcome to the Seller Dashboard</h1>
+         <p class="text-gray-600 mt-4">No sales data available yet. Start selling to see your stats and reports here!</p>
+         </div>
+             
+         {% else %}
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Total Revenue -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Total Revenue</h3>
+                <p class="text-2xl font-bold text-gray-800">
+                    PHP {{ "%.2f"|format(sales_data|sum(attribute='2')) }}
+                </p>
+            </div>
+
+            <!-- Total Items Sold -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Total Items Sold</h3>
+                <p class="text-2xl font-bold text-gray-800">
+                    {{ sales_data|sum(attribute='1') }}
+                </p>
+            </div>
+
+            <!-- Average Revenue per Sale -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-gray-500 text-sm font-medium">Average Revenue per Sale</h3>
+                <p class="text-2xl font-bold text-gray-800">
+                    PHP {{ "%.2f"|format(sales_data|sum(attribute='2') / sales_data|length) }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Main Content Area with Flex Layout -->
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Data Table with Pagination -->
+            <div class="lg:w-3/5 bg-white rounded-lg shadow overflow-hidden">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">Detailed Sales Data</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200" id="salesTable">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Sold</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Revenue</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="tableBody">
+                            {% for product, quantity, revenue, date in sales_data %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ quantity }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PHP {{ "%.2f"|format(revenue) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <!-- Pagination Controls -->
+                    <div class="flex justify-between items-center px-6 py-3 bg-gray-50">
+                        <div class="flex items-center space-x-2">
+                            <span>Rows per page:</span>
+                            <select id="rowsPerPage" class="form-select border rounded px-2 py-1">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button id="prevPage" class="px-4 py-2 border rounded hover:bg-gray-100">
+                                Previous
+                            </button>
+                            <span id="pageInfo">Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+                            <button id="nextPage" class="px-4 py-2 border rounded hover:bg-gray-100">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart (now on the right) -->
+            <div class="lg:w-2/5 bg-white rounded-lg shadow">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">Sales Overview</h3>
+                    <div class="relative" style="height: 400px;">
+                        <canvas id="salesChart" data-sales='{{ chart_data|tojson }}'></canvas>
+                    </div>
+                </div>
+                {% endif%}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chart and store it in a variable for later access
+        let salesChart;
+        const salesData = JSON.parse(document.getElementById('salesChart').dataset.sales);
+
+        function initializeChart(filteredData = salesData) {
+            const canvas = document.getElementById('salesChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Process the data for the chart
+            const products = filteredData.map(item => item[0]);
+            const quantities = filteredData.map(item => item[1]);
+            const revenues = filteredData.map(item => item[2]);
+
+            // If a chart already exists, destroy it before creating a new one
+            if (salesChart) {
+                salesChart.destroy();
+            }
+
+            salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: products,
+                    datasets: [
+                        {
+                            label: 'Quantity Sold',
+                            data: quantities,
+                            backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Revenue (PHP)',
+                            data: revenues,
+                            backgroundColor: 'rgba(16, 185, 129, 0.5)',
+                            borderColor: 'rgb(16, 185, 129)',
+                            borderWidth: 1,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Quantity Sold'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Revenue (PHP)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Search functionality for both table and chart
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('tbody tr');
+            
+            // Filter table rows
+            tableRows.forEach(row => {
+                const productName = row.cells[0].textContent.toLowerCase();
+                row.style.display = productName.includes(searchTerm) ? '' : 'none';
+            });
+
+            // Filter chart data
+            const filteredData = salesData.filter(item => 
+                item[0].toLowerCase().includes(searchTerm)
+            );
+
+            // Reinitialize chart with filtered data
+            initializeChart(filteredData);
+        });
+
+        // Initialize the chart when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChart();
+        });
+
+        // Pagination Script
+        const tableBody = document.getElementById('tableBody');
+        const rowsPerPageSelect = document.getElementById('rowsPerPage');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const currentPageSpan = document.getElementById('currentPage');
+        const totalPagesSpan = document.getElementById('totalPages');
+
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+        const totalRows = rows.length;
+
+        function updateTable() {
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = (index >= startIndex && index < endIndex) ? '' : 'none';
+            });
+
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+            
+            currentPageSpan.textContent = currentPage;
+            totalPagesSpan.textContent = totalPages;
+
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
+
+        rowsPerPageSelect.addEventListener('change', (e) => {
+            rowsPerPage = parseInt(e.target.value);
+            currentPage = 1;
+            updateTable();
+        });
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateTable();
+            }
+        });
+
+        // Initial table setup
+        updateTable();
+    </script>
+</body>
+{% endblock %}

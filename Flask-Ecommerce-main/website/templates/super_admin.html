@@ -1,0 +1,423 @@
+
+
+
+{% block body %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/e24507d923.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <title>Superadmin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+     :root {
+            --primary-bg: #244d3a;
+            --secondary-bg: #142f23;
+            --accent-color: #f7fdff;
+            --text-primary: #e2e8f0;
+            --text-secondary: #c6dace;
+        }
+
+
+        * {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) var(--secondary-bg);
+        }
+
+
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+
+
+        *::-webkit-scrollbar-track {
+            background: var(--secondary-bg);
+        }
+
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 20px;
+        }
+
+
+        /* html, body {
+            height: 100%;
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            overflow: hidden;
+        } */
+
+
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            background-color: var(--primary-bg);
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--secondary-bg);
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            transition: width 0.3s ease;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+
+        .sidebar-nav li {
+            margin: 10px 0;
+        }
+
+
+        .sidebar-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .sidebar-nav a:hover {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+        }
+
+
+        .sidebar-nav a.active {
+            background-color: rgba(56, 189, 248, 0.2);
+            color: var(--accent-color);
+        }
+
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: var(--primary-bg);
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        .welcome-container {
+            background-color: var(--secondary-bg);
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .welcome-content {
+            z-index: 2;
+            position: relative;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .welcome-container h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+
+        .welcome-container p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+
+        .welcome-bg {
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                135deg,
+                rgba(56, 189, 248, 0.1) 0%,
+                rgba(56, 189, 248, 0.05) 100%
+            );
+            transform: rotate(-45deg);
+            z-index: 1;
+        }
+
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+
+        .quick-action-card {
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .quick-action-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+
+        .quick-action-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .quick-action-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+
+        .quick-action-card .btn {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+           
+        }
+
+
+        .quick-action-card .btn:hover {
+            background-color: rgba(56, 189, 248, 0.2);
+            transform: translateY(-5px);
+
+
+        }
+
+
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                overflow-x: auto;
+            }
+
+
+            .sidebar-nav {
+                display: flex;
+                justify-content: space-around;
+                font-family: 'century gothic', sans-serif;
+            }
+
+
+            .main-content {
+                padding: 10px;
+            }
+
+
+            .welcome-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+
+            .welcome-container p {
+                max-width: 100%;
+            }
+
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* Flash Messages */
+        .message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+            width: 100%;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .flash-message {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'century gothic', sans-serif;
+        }
+
+
+        .flash-message .close-btn {
+            background: none;
+            border: none;
+            color: var(--primary-bg);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container fade-in">
+        <!-- Left Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                SuperAdmin
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="/customers">Customer Management</a></li>
+                <li><a href="/shop-items">Shop Items</a></li>
+                <!-- <li><a href="/add-shop-items">Add Shop Items</a></li> -->
+                <!-- <li><a href="/view-orders">Order Tracking</a></li>
+                <li><a href="/archived-items">Archived Items</a></li> -->
+                <li><a href="/reports/basic-sales">Sales Reports</a></li> 
+                <li><a href="/manage-seller-requests">Seller Requests</a></li>
+                <li><a href="/logout">Log out</a></li>                
+
+                 <!-- <li><a href="/reports/re">Comprehensive Reports</a></li>
+                <li><a href="/support">Support Center</a></li>  -->
+            </ul>
+        </nav>
+
+
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- Flash Messages -->
+                <div class="message-container">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="flash-message">
+                                    <span>{{ message }}</span>
+                                    <button class="close-btn">&times;</button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+
+                <!-- Welcome Section -->
+                <div class="welcome-container">
+                    <div class="welcome-bg"></div>
+                    <div class="welcome-content">
+                        <h2>Welcome, SuperAdmin</h2>
+                        <p>Access comprehensive platform controls, manage users, monitor system performance, and maintain the integrity of your digital ecosystem.</p>
+                    </div>
+                </div>
+
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="quick-action-card">
+                        <h3>User Management</h3>
+                        <p>View, edit, and manage user accounts across the platform.</p>
+                        <a href="/customers" class="btn">Manage Users</a>
+                    </div>
+                    <div class="quick-action-card">
+                        <h3>Seller Oversight</h3>
+                        <p>Monitor and approve seller registrations and performance.</p>
+                        <a href="/manage-seller-requests" class="btn">View Sellers</a>
+                    </div>
+                    <!-- <div class="quick-action-card">
+                        <h3>Order Tracking</h3>
+                        <p>Track and manage orders, deliveries, and customer feedback.</p>
+                        <a href="/view-orders" class="btn">View Orders</a>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Flash message close functionality
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.flash-message').remove();
+            });
+        });
+    </script>
+</body>
+{% endblock %}
+

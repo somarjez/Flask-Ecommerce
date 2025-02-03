@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Submit a Review {% endblock %}
+
+
+{% block body %}
+
+
+<div class="container my-5">
+    <!-- Big box container with gradient background -->
+    <div class="p-4" style="background: #0d270a; border-radius: 30px; box-shadow: 0 0 10px rgb(77, 100, 77);">        <h2 class="text-center mb-4" style="color: white; font-family: century gothic; font-weight: bold;">Submit Your Review</h2>
+
+
+        <form method="POST" action="{{ url_for('admin.submit_review', product_id=product.id) }}" class="fade-in">
+            {{ form.hidden_tag() }}
+
+
+            <div class="form-group mb-4">
+                <label for="rating" class="form-label" style="color: gold; ">Rating (1-5)</label>              
+                 <select class="form-control" id="rating" name="rating">
+                    <option value="">Select a rating</option>
+                    {% for i in range(1, 6) %}
+                        <option value="{{ i }}" {% if form.rating.data == i %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.rating.errors %}
+                    <small class="text-danger">{{ form.rating.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+
+            <div class="form-group mb-4">
+                <label for="review_text" class="form-label" style="color: white; font-family: century gothic; font-weight: bold;">Your Review</label>
+                <textarea class="form-control" id="review_text" name="review_text" rows="5"
+                          placeholder="Write your review here...">{{ form.review_text.data if form.review_text.data is not none else '' }}</textarea>
+                {% if form.review_text.errors %}
+                    <small class="text-danger">{{ form.review_text.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">{{ form.submit_review.label }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    .btn-primary {
+        background-color: gold;
+        color: #0d270a;
+        border: none;
+        font-family: 'Century Gothic', sans-serif;
+        font-weight: bold;
+        transition: transform 0.2s;
+        border-radius: 20px;
+    }
+    .btn-primary:hover {
+        background-color: #496c35;
+        color: white;
+        font-family: 'Century Gothic', sans-serif;
+        font-weight: bold;
+        transform: translateY(-3px);
+        border-radius: 20px;
+
+
+    }
+</style>
+
+
+{% endblock %}
+
+
+

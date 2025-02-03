@@ -1,0 +1,564 @@
+{% extends 'base.html' %}
+
+
+{% block title %} View Details {% endblock %}
+
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+<style>
+    /* ... (previous styles remain the same) ... */
+    .product-details-container {
+        background-color: #011b0f;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+
+    .product-card {
+        background-color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+
+
+    /* Center the image */
+    .product-img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+    }
+
+
+    .product-img {
+        width: 100%;
+        max-width: 400px; /* Limit width */
+        height: auto;
+        border-radius: 10px;
+        object-fit: contain;
+        background-color: #719666;
+    }
+
+
+    .review-card {
+        background-color: rgba(126, 182, 130, 0.747);  /* reduced opacity */
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+
+
+    .reviews-container {
+        max-height: 600px;
+        overflow-y: auto;
+        background: rgba(240, 217, 217, 0.1);  /* very light transparent background */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-top: 20px;
+    }
+
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .modal-content {
+        width: 50%; /* Adjusted width */
+        height: auto;
+        max-width: 500px; /* Limiting the size */
+        max-height: 400px; /* Limiting height */
+        margin: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .modal img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+
+    /* Close button */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 25px;
+        color: #f1f1f1;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    /* Buy Now Modal Styles */
+    #buyNowModal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .buy-now-modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .buy-now-modal-content h3 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+
+    .quantity-input-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+
+    .quantity-input-group button {
+        font-family: 'Poppins';
+        font-size: 16px;
+        border: none;  /* Remove border */
+        background-color: #007bff;  /* Add a background color */
+        color: white;  /* Make text white */
+        padding: 5px 12px;  /* Add some padding */
+        border-radius: 5px;  /* Round the corners */
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+
+    .quantity-input-group button:hover {
+        background-color: #0056b3;  /* Darker shade on hover */
+    }
+
+
+    .quantity-input-group input {
+        width: 50px;  /* Slightly reduced width */
+        height: 35px;  /* Fixed height */
+        text-align: center;  /* This is already centered horizontally */
+        margin: 0 15px;
+        font-family: 'Poppins';
+        font-size: 16px;
+        border: 2px solid #ddd;
+        padding: 0;  /* Remove padding */
+        box-shadow: none;  /* Remove any shadow */
+        display: flex;  /* Add these three lines */
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+
+    .payment-method-group {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+
+    .payment-method-btn {
+        padding: 10px 20px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+
+    .payment-method-btn.selected {
+        border-color: #007bff;
+        background-color: #f0f8ff;
+    }
+
+
+    .payment-method-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+
+    .buy-now-modal-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+
+    /* Add these new styles for the buttons */
+    #cancelBuyNow {
+        background-color: #70682a;  /* Red color */
+        font-family: 'Century Gothic';
+        color: white;
+        border: none;
+    }
+
+
+    #cancelBuyNow:hover {
+        background-color: #8f9444;  /* Darker red on hover */
+    }
+
+
+    #confirmBuyNow {
+        background-color: #70682a;  /* Green color */
+        font-family: 'Century Gothic';
+        color: rgb(255, 255, 255);
+        border: none;
+    }
+
+
+    #confirmBuyNow:hover {
+        background-color: #8f9444;  /* Darker green on hover */
+    }
+
+
+    #confirmBuyNow:disabled {
+        background-color: #6c757d;  /* Gray color when disabled */
+        cursor: not-allowed;
+    }
+
+
+    /* Remove all button hover effects */
+    .add-to-cart-btn, .add-to-wishlist-btn, .buy-now-btn {
+        transition: none;
+        transform: none !important;
+    }
+
+
+    .add-to-wishlist-btn {
+        transition: all 0.3s ease;
+        transform: scale(1); /* Reset initial state */
+    }
+    .add-to-wishlist-btn:hover {
+        background-color: #5a6268;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .buy-now-btn {
+        transition: all 0.3s ease;
+        transform: translateX(0); /* Reset initial state */
+    }
+    .buy-now-btn:hover {
+        background-color: #218838;
+        transform: translateX(2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    /* Reset any inherited transforms */
+    .btn {
+        transform: none !important;
+    }
+    .btn:hover {
+        transform: none !important;
+    }
+
+
+    /* You might also want to add margin to the reviews heading */
+    .reviews-heading {
+        margin-top: 30px;
+    }
+</style>
+
+
+<div class="container my-5 fade-in">
+    {% if items | length < 1 %}
+        <h3 class="text-center" style="color: white;">No Details found</h3>
+    {% else %}
+        {% for item in items %}
+        <div class="row product-details-container">
+           
+            <!-- Product Details Column -->
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="product-card h-100">
+                    <a href="{{ url_for('views.view', product_id=item.id) }}">
+                        <div class="product-img-container">
+                            <img src="{{ item.product_picture }}" alt="{{ item.product_name }}" class="product-img" id="product-img-{{ item.id }}" />
+                        </div>
+                    </a>
+
+
+                    <div class="p-3">
+                        <h5 class="product-title" style="font-family: 'Poppins'; color: #0d270a">{{ item.product_name }}</h5>
+                        <h5 style="font-family: 'Poppins'; font-size: 25px; color:#270707; font-weight: bold;">PHP {{ item.current_price }}</h5>
+                        <strike><p style="color: rgb(80, 79, 79);">PHP {{ item.previous_price }}</p></strike>
+                        <p class="font-weight-bold" style="font-family: 'Poppins'; color: #6c7a1c"><strong>Description: </strong> {{ item.description }}</p>
+
+
+
+
+                        <div class="my-3">
+                            <p>{{ item.in_stock }} Items Left</p>
+                        </div>
+
+
+                        <div class="row justify-content-center g-1" style="margin: 0; display: flex; align-items: center;">
+                            <div class="col-auto add-cart-btn" style="padding: 0;">
+                                <a href="/add-to-cart/{{ item.id }}" class="btn btn-primary add-to-cart-btn" style="margin: 0;">
+                                    <i class="fas fa-shopping-cart"></i> Add
+                                </a>
+                            </div>
+                            <div class="col-auto add-cart-btn" style="padding: 0;">
+                                <a href="/add-to-wishlist/{{ item.id }}" class="btn btn-secondary add-to-wishlist-btn" style="margin: 0;">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </div>
+                            <div class="col-auto add-cart-btn" style="padding: 0;">
+                                <a href="#" class="btn btn-success buy-now-btn" style="margin: 0;" data-product-id="{{ item.id }}" data-product-name="{{ item.product_name }}" data-product-price="{{ item.current_price }}" data-product-stock="{{ item.in_stock }}">
+                                    <i class="bi bi-tag-fill"></i> Buy Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Reviews Column -->
+            <div class="col-lg-6 col-md-12">
+                <h3 class="text-center mb-3" style="font-family: 'Century Gothic'; font-weight: bold; font-size: 35px; color: #ffffff;">Product Reviews</h3>
+                <div class="reviews-container">
+                    {% if reviews %}
+                        {% for review in reviews %}
+                        <div class="review-card">
+                            <p style="font-family: 'Poppins'; font-size: 17px; color: #000000;">User: {{ review.customer.username }}</p>
+                            <p style="font-size: 16px;font-family: 'Poppins'f; font-size: 15px; color: gold;"><strong>Rating:</strong>
+                                {% for i in range(1, 6) %}
+                                    {% if i <= review.rating %}
+                                        <i class="fas fa-star" style="color: gold; size: 16px;"></i>
+                                    {% else %}
+                                        <i class="far fa-star" style="color: gold; size: 16px;"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </p>                        
+                            <p style="font-size: 16px;font-family: 'Poppins'; color: #000000;">Review: {{ review.review_text }}</p>
+                            <p style="font-family: 'Poppins'; color: #343533;"><small>Reviewed on: {{ review.review_date.strftime('%Y-%m-%d %H:%M:%S') }}</small></p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center">
+                            <h5 style="font-family: 'Century Gothic'; font-size: 30px; font-weight: bold; color: #e4e6a9;">No Available Reviews.</h5>
+                            <p style="font-family: 'Poppins'; color: #c3d389;">Buy Now and check the product!</p>
+
+
+                        </div>
+                    {% endif %}
+                   
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+<!-- Buy Now Modal -->
+<div id="buyNowModal" class="modal">
+    <div class="buy-now-modal-content">
+        <h3 style="font-family: 'Poppins'; color:#094115; font-weight: bold;">Complete Your Purchase</h3>
+
+        <div class="quantity-input-group">
+            <button id="decreaseQuantity">-</button>
+            <input type="number" id="quantityInput" value="1" min="1" max="" readonly>
+            <button id="increaseQuantity">+</button>
+        </div>
+
+        <div class="payment-method-group">
+            <div class="payment-method-btn" id="codPaymentMethod" data-method="cod" style="font-family: 'Poppins', sans-serif; color:#094115;">
+                <i class="fas fa-money-bill-wave"></i> Cash on Delivery
+            </div>
+            <div class="payment-method-btn disabled" id="paypalPaymentMethod" data-method="paypal" title="Coming Soon" style="font-family: 'Poppins', sans-serif; color:#094115;">
+                <i class="fab fa-paypal"></i> Paypal (Unavailable)
+            </div>
+            <div class="payment-method-btn disabled" id="bankTransferPaymentMethod" data-method="bank" title="Coming Soon" style="font-family: 'Poppins'; color:#094115;">
+                <i class="fas fa-university"></i> Bank Transfer (Unavailable)
+            </div>
+        </div>
+
+        <div class="buy-now-modal-actions">
+            <button class="btn btn-primary" id="cancelBuyNow">Cancel</button>
+            <button class="btn btn-success" id="confirmBuyNow" disabled>Confirm Purchase</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Previous script for image modal remains the same -->
+<script>
+    // Buy Now Modal Logic
+    document.querySelectorAll('.buy-now-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+            const productPrice = parseFloat(this.getAttribute('data-product-price'));
+            const productStock = parseInt(this.getAttribute('data-product-stock'));
+
+            const buyNowModal = document.getElementById('buyNowModal');
+            const quantityInput = document.getElementById('quantityInput');
+            const increaseQuantityBtn = document.getElementById('increaseQuantity');
+            const decreaseQuantityBtn = document.getElementById('decreaseQuantity');
+            const confirmBuyNowBtn = document.getElementById('confirmBuyNow');
+            const cancelBuyNowBtn = document.getElementById('cancelBuyNow');
+
+            // Reset modal
+            quantityInput.max = productStock;
+            quantityInput.value = 1;
+            confirmBuyNowBtn.disabled = true;
+
+            // Quantity adjustment
+            increaseQuantityBtn.addEventListener('click', function() {
+                if (parseInt(quantityInput.value) < productStock) {
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                }
+            });
+
+            decreaseQuantityBtn.addEventListener('click', function() {
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                }
+            });
+
+            // Payment method selection
+            const paymentMethods = document.querySelectorAll('.payment-method-btn');
+            let selectedPaymentMethod = null;
+
+            paymentMethods.forEach(function(method) {
+                method.addEventListener('click', function() {
+                    if (!this.classList.contains('disabled')) {
+                        paymentMethods.forEach(m => m.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedPaymentMethod = this.getAttribute('data-method');
+                        confirmBuyNowBtn.disabled = false;
+                    }
+                });
+            });
+
+            // Confirm purchase
+            confirmBuyNowBtn.onclick = function() {
+                if (selectedPaymentMethod && selectedPaymentMethod === 'cod') {
+                    const quantity = parseInt(quantityInput.value);
+                    const totalAmount = (productPrice); // Add 200 PHP for shipping fee
+                    // Redirect to buy now route with product ID, quantity, and total amount
+                    window.location.href = `/buy-now/${productId}?quantity=${quantity}&total=${totalAmount}`;
+                } else {
+                    alert('Please select Cash on Delivery as the payment method.');
+                }
+            };
+
+            // Cancel purchase
+            cancelBuyNowBtn.onclick = function() {
+                buyNowModal.style.display = 'none';
+            };
+
+            // Show modal
+            buyNowModal.style.display = 'flex';
+        });
+    });
+
+    // Close the modal when clicking outside
+    window.addEventListener('click', function(event) {
+        const buyNowModal = document.getElementById('buyNowModal');
+        if (event.target == buyNowModal) {
+            buyNowModal.style.display = 'none';
+        }
+    });
+
+
+        // Get the modal
+        var modal = document.getElementById('imageModal');
+    var modalImg = document.getElementById("modal-img");
+
+
+    var timer; // Variable to hold the timeout ID
+
+
+    // Get all product images and add event listeners for hover
+    document.querySelectorAll('.product-img').forEach(function(img) {
+        img.addEventListener('mouseenter', function() {
+            timer = setTimeout(function() {
+                modal.style.display = "flex"; // Show modal
+                modalImg.src = img.src; // Set modal image to the hovered image
+            }, 3000); // Delay for 6 seconds
+        });
+
+
+        img.addEventListener('mouseleave', function() {
+            clearTimeout(timer); // Cancel the modal if mouse leaves before 6 seconds
+            modal.style.display = "none"; // Hide modal
+        });
+    });
+
+
+    // Close the modal when clicking the close button
+    document.querySelector('.close').addEventListener('click', function() {
+        modal.style.display = "none"; // Hide modal
+    });
+
+
+    // Close the modal when clicking anywhere outside of the modal
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+</script>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

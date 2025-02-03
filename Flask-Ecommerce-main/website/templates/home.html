@@ -1,0 +1,757 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+<!-- Full-screen background image -->
+<div class="page-wrapper">
+  <!-- Main content container -->
+  <div class="main-content">
+      <div style="position: relative; width: 100%; height: 100vh; overflow: hidden;" class="fade-in">
+          <img src="../static/images/bg.png" alt="Background Image" style="width: 100%; height: 100%; object-fit: cover;">
+
+
+
+
+          <div style="position: absolute; top: 15%; left: 53%; transform: translate(-50%, -50%);" class="fade-in">
+              <div style="font-size: 24px; font-weight: normal; font-style: italic; color: white; text-align: center; font-family: 'Times New Roman', serif;">WELCOME TO</div>
+          </div>
+          <div style="position: absolute; top: 25%; left: 47%; transform: translate(-50%, -50%);" class="fade-in">
+              <div style="font-size: 110px; font-weight: normal; color: white; text-align: center; font-family: 'Eyesome Script', cursive;" class="fade-in">Findify</div>
+          </div>
+          <div style="position: absolute; top: 39%; left: 47%; transform: translate(-50%, -50%); font-size: 30px; font-family: 'Times New Roman', serif; color: white;">
+              Make your house a comfortable home
+          </div>
+         
+          <div style="position: absolute; top: 48%; left: 47%; transform: translate(-50%, -50%); text-align: center; display: flex; justify-content: center; align-items: center;">
+            <!-- About Us Button -->
+            <a href="{{ url_for('auth.aboutus') }}"
+               style="background-color: #254336; color: white; padding: 8px 30px; font-size: 18px; border: 2px solid #254336; border-radius: 25px; cursor: pointer; text-decoration: none; margin-right: 10px;">
+                About Us
+            </a>
+           
+            <!-- Search Form -->
+            <form class="d-flex" role="search" action="/search" method="POST">
+                <button class="btn" type="submit"
+                    style="background-color: #254336; color: white; padding: 8px 30px; font-size: 18px; border: 2px solid #254336; border-radius: 25px; cursor: pointer; text-decoration: none;">
+                    See All Products
+                </button>
+            </form>
+        </div>
+       
+      </div>
+
+
+      <!-- Spacer to push content below -->
+      <div style="margin-top: 50px;"></div>
+
+      <!-- Content Section -->
+
+
+      <div class="container text-center fade-in">
+          <div class="row" style="margin: 5px;">
+              <div class="col" style="margin: 3px;">
+                  <div class="list-group fade-in" id="right1">
+                      <img src="../static/images/sale3.gif" alt="" style="width: 285px; height: 365px; border-radius: 10px;" class="fade-in">
+                  </div>
+              </div>
+
+
+
+
+              <div class="col-md-7" style="margin: 3px;">
+                  <img src="../static/images/g3.gif" alt="" style="width: 700px; height: 365px; border-radius: 10px;" class="fade-in">
+              </div>
+
+
+
+
+              <div class="col-md-2">
+                  <div class="row" style="background-color: white; border-radius: 10px;">
+                      <div class="row" style="display: flex; margin-top: 5px;">
+                          <div class="col">
+                              <img src="../static/images/ap3.jpg" alt="" style="width: 30px; height: 30px; margin-left: -30px;">
+                          </div>
+                          <div class="col">
+                              <h6 style="font-family:'Times New Roman', Times, serif; font-size: 12px; margin-left: -40px; font-weight: 600;">FindiFy</h6>
+                              <p style="font-size: small; color: gray; margin-left: -30px; margin-top: -10px;">Only the Best</p>
+                          </div>
+                      </div>
+
+
+                      <div class="row" style="display: flex; margin-top: 5px;">
+                          <div class="col">
+                              <img src="../static/images/return.png" alt="" style="width: 30px; height: 30px; margin-left: -30px;">
+                          </div>
+                          <div class="col">
+                              <h6 style="font-family:'Times New Roman', Times, serif; font-size: 12px; margin-left: -40px; font-weight: 600;">START SELLING?</h6>
+                              <p style="font-size: small; color: gray; margin-left: -30px; margin-top: -10px;">Be a seller Now!</p>
+                          </div>
+                      </div>
+
+
+                      <div class="row" style="display: flex; margin-top: 5px;">
+                          <div class="col">
+                              <img src="../static/images/payment.png" alt="" style="width: 30px; height: 30px; margin-left: -30px;">
+                          </div>
+                          <div class="col">
+                              <h6 style="font-family:'Times New Roman', Times, serif; font-size: 12px; margin-left: -40px; font-weight: 600;">Click to start selling!</h6>
+                              <p style="font-size: small; color: gray; margin-left: -30px; margin-top: -10px;">
+                                  <a href="/request-seller" class="click-here-link">Click Here!</a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row" style="margin-top: 12px;">
+                      <div class="col">
+                          <img src="../static/images/g4.gif" alt="" class="right2">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+<!-- <style>
+  .containerism {
+      width: 90%;
+      max-width: 1200px;
+      height: 450px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      align-items: center; /* Ensures images are vertically centered */
+      overflow: hidden; /* Prevents images from overflowing */
+  }
+
+
+
+
+  .containerism img {
+      width: 15%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      transition: all 0.5s ease-in-out;
+  }
+
+
+
+
+  .containerism img:hover {
+      width: 50%;
+  }
+</style>
+
+
+
+
+<div class="containerism">
+  <img src="{{ url_for('admin.media_files', filename='picture/1.png') }}" alt="1">
+  <img src="{{ url_for('admin.media_files', filename='picture/2.png') }}" alt="2">
+  <img src="{{ url_for('admin.media_files', filename='picture/3.png') }}" alt="3">
+  <img src="{{ url_for('admin.media_files', filename='picture/4.png') }}" alt="4">
+  <img src="{{ url_for('admin.media_files', filename='picture/5.png') }}" alt="5">
+  <img src="{{ url_for('admin.media_files', filename='picture/5.png') }}" alt="6">
+</div> -->
+<div class="container text-center fade-in">
+    <div class="row fade-in" style="margin: 8px;">
+        <div class="col fade-in" style="display: flex; background-color: #cfc6b5; border-radius: 10px; padding: 7px; margin: 5px;">
+            <h6 class="fade-in" style="margin: 4px; color: #485642;"><i class="bi bi-bookmarks-fill"></i> CATEGORIES</h6>
+        </div>
+    </div>
+</div>
+
+<div class="category-search-buttons fade-in" style="margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+    <form method="POST" action="{{ url_for('views.search') }}" style="margin-bottom: 10px;">
+        <input type="hidden" name="category" value="Living Room Furniture">
+        <div class="card category-card" onclick="this.closest('form').submit();" style="background-color: rgba(6, 37, 7, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid transparent; box-shadow: 0 0 10px 5px rgba(1, 31, 3, 0.25);">
+            <div class="card-body text-center">
+                <h5 class="card-title" style="color: #ffffff; font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;font-weight: 700;">Living Room Furniture</h5>
+                <p class="card-text" style="color: #cce3cd; font-family: 'Century Gothic', CenturyGothic, sans-serif;">Search Living Room</p>
+            </div>
+        </div>
+    </form>
+    <form method="POST" action="{{ url_for('views.search') }}" style="margin-bottom: 10px;">
+        <input type="hidden" name="category" value="Bedroom Furniture">
+        <div class="card category-card" onclick="this.closest('form').submit();" style="background-color: rgba(6, 37, 7, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid transparent; box-shadow: 0 0 10px 5px rgba(5, 53, 8, 0.25);">
+            <div class="card-body text-center">
+                <h5 class="card-title" style="color: #ffffff; font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;font-weight: 700;">Bedroom Furniture</h5>
+                <p class="card-text" style="color: #cce3cd; font-family: 'Century Gothic', CenturyGothic, sans-serif;">Search Bedroom</p>
+            </div>
+        </div>
+    </form>
+    <form method="POST" action="{{ url_for('views.search') }}" style="margin-bottom: 10px;">
+        <input type="hidden" name="category" value="Dining Room Furniture">
+        <div class="card category-card" onclick="this.closest('form').submit();" style="background-color: rgba(6, 37, 7, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid transparent; box-shadow: 0 0 10px 5px rgba(5, 53, 8, 0.25);">
+            <div class="card-body text-center">
+                <h5 class="card-title" style="color: #ffffff; font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;font-weight: 700;">Dining Room Furniture</h5>
+                <p class="card-text" style="color: #cce3cd; font-family: 'Century Gothic', CenturyGothic, sans-serif;">Search Dining Room</p>
+            </div>
+        </div>
+    </form>
+    <form method="POST" action="{{ url_for('views.search') }}" style="margin-bottom: 10px;">
+        <input type="hidden" name="category" value="Office Furniture">
+        <div class="card category-card" onclick="this.closest('form').submit();" style="background-color: rgba(6, 37, 7, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid transparent; box-shadow: 0 0 10px 5px rgba(5, 53, 8, 0.25);">
+            <div class="card-body text-center">
+                <h5 class="card-title" style="color: #ffffff; font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;font-weight: 700;">Office Furniture</h5>
+                <p class="card-text" style="color: #cce3cd; font-family: 'Century Gothic', CenturyGothic, sans-serif;">Search Office</p>
+            </div>
+        </div>
+    </form>
+    <form method="POST" action="{{ url_for('views.search') }}">
+        <input type="hidden" name="category" value="Outdoor Furniture">
+        <div class="card category-card" onclick="this.closest('form').submit();" style="background-color: rgba(6, 37, 7, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid transparent; box-shadow: 0 0 10px 5px rgba(5, 53, 8, 0.25);">
+            <div class="card-body text-center">
+                <h5 class="card-title" style="color: #ffffff; font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;font-weight: 700;">Outdoor Furniture</h5>
+                <p class="card-text" style="color: #cce3cd; font-family: 'Century Gothic', CenturyGothic, sans-serif;">Search Outdoor</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="container text-center fade-in" >
+    <div class="row fade-in" style="margin: 8px;" >
+        <div class="col fade-in" style="display: flex; background-color: #cfc6b5; border-radius: 10px; padding: 7px; margin: 5px;">
+            <h6 class="fade-in" style="margin: 4px; color: #527543;"><i class="fas fa-bolt" style="color: #ffffff; font-size: 25px;"></i>
+                PRODUCT FLASH SALE</h6>
+        </div>
+    </div>
+</div>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="container text-center fade-in">
+    <div class="row fade-in" style="margin: 8px;" id="column">
+
+
+
+
+
+
+
+
+        {% for item in items %}
+       
+        <div class="col fade-in" style="background-color: #dfd6c5;">
+            <!-- Make the image clickable and redirect to search results -->
+            </br>
+       
+            <a href="{{ url_for('views.view', product_id=item.id) }}">
+                <img src="{{ item.product_picture }}" alt="{{ item.product_name }}" style="height: 202px; width: 180px; border-radius: 10px;" class="fade-in">
+            </a><h6 class="fade-in" style="color: gray;">{{ item.product_name }}</h6>
+
+
+
+
+            <div class="row fade-in" style="margin-top: 10px;" >
+                <div class="add-cart-btn fade-in">
+                    <a href="/add-to-cart/{{ item.id }}" >
+                        <i class="fas fa-shopping-cart"></i>
+                        Add
+                    </a>
+                    <a href="/add-to-wishlist/{{ item.id }}" class="btn btn-secondary"><i class="far fa-heart"></i></a>
+                </div>
+
+                <div class="row fade-in">
+                   
+                    <h5 style="font: size 12px;font-family: 'Times New Roman', Times, serif;">PHP {{ item.current_price }}
+                       
+                    </h5><strike><p style="color: gray;">PHP {{ item.previous_price }}</p></strike>
+                </div>
+            </div>
+
+           
+        </div>
+
+
+
+
+
+
+
+
+        {% endfor %}
+    </div>
+</div>
+<style>
+  /* General responsive styles */
+  .background-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+  }
+
+
+
+
+  .background-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+
+
+
+  .welcome-text {
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+  }
+
+
+
+
+  .welcome-title {
+      font-size: 24px;
+      font-weight: normal;
+      font-style: italic;
+      color: white;
+  }
+
+
+
+
+  .brand-name {
+      font-size: 110px;
+      font-family: 'Eyesome Script', cursive;
+      color: white;
+  }
+
+
+
+
+  .subtitle {
+      font-size: 30px;
+      font-family: 'Times New Roman', serif;
+      color: white;
+  }
+
+
+
+
+  .about-us-button {
+      background-color: #254336;
+      color: white;
+      padding: 8px 30px;
+      font-size: 18px;
+      border: 2px solid #254336;
+      border-radius: 25px;
+      cursor: pointer;
+      text-decoration: none;
+  }
+
+
+
+
+  /* Image responsiveness */
+  .responsive-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+  }
+
+
+
+
+  /* Info cards */
+  .info-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px;
+  }
+
+
+
+
+  .info-item {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+  }
+
+
+
+
+  .info-img {
+      width: 30px;
+      height: 30px;
+      margin-left: -30px;
+  }
+
+
+
+
+  .info-text {
+      margin-left: -40px;
+  }
+
+
+
+
+  .info-text h6 {
+      font-family: 'Times New Roman', serif;
+      font-size: 12px;
+      font-weight: 600;
+  }
+
+
+
+
+  .info-text p {
+      font-size: small;
+      color: gray;
+      margin-top: -10px;
+  }
+
+
+
+
+  .click-here-link {
+      text-decoration: none;
+      color: #2a4e23;
+  }
+
+
+
+
+  .product-sale-card {
+      display: flex;
+      background-color: #cfc6b5;
+      border-radius: 10px;
+      padding: 7px;
+      margin: 5px;
+      justify-content: center;
+      align-items: center;
+  }
+
+
+
+
+  .sale-icon {
+      width: 30px;
+      height: 30px;
+  }
+
+
+
+
+  .sale-text {
+      margin-left: 10px;
+      color: #485642;
+  }
+
+
+
+
+  /* Media Queries for mobile responsiveness */
+  @media (max-width: 768px) {
+      .background-image {
+          object-position: center;
+      }
+
+
+
+
+      .welcome-title {
+          font-size: 60px;
+      }
+
+
+
+
+      .brand-name {
+          font-size: 90px;
+      }
+
+
+
+
+      .subtitle {
+          font-size: 24px;
+      }
+
+
+
+
+      .col-md-7 img {
+          width: 100%;
+      }
+
+
+
+
+      .col-md-2 {
+          margin-top: 15px;
+      }
+
+
+
+
+      .info-item {
+          flex-direction: row;
+      }
+
+
+
+
+      .info-img {
+          width: 20px;
+          height: 20px;
+      }
+
+
+
+
+      .info-text h6, .info-text p {
+          font-size: 10px;
+      }
+  }
+
+
+
+
+  @media (max-width: 480px) {
+      .welcome-title {
+          font-size: 50px;
+      }
+
+
+
+
+      .brand-name {
+          font-size: 80px;
+      }
+
+
+
+
+      .subtitle {
+          font-size: 20px;
+      }
+
+
+
+
+      .responsive-img {
+          width: 100%;
+          height: auto;
+      }
+
+
+
+
+      .product-sale-card {
+          flex-direction: column;
+          align-items: center;
+      }
+
+
+
+
+      .sale-icon {
+          width: 25px;
+          height: 25px;
+      }
+
+
+
+
+      .sale-text {
+          font-size: 12px;
+      }
+  }
+
+
+
+
+  .background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+/* Responsive styling for images, including GIFs */
+img {
+  max-width: 100%;  /* Ensures image scales to fit container */
+  height: auto;     /* Maintains aspect ratio */
+  border-radius: 10px;  /* Keeps the border-radius for rounded edges */
+}
+
+
+
+
+/* GIF image adjustments */
+.fade-in img {
+  width: 100%;  /* Make GIFs responsive */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: keeps border-radius */
+}
+
+
+
+
+/* Additional responsiveness for columns and containers */
+@media (max-width: 768px) {
+  .col-md-7 img, .col-md-2 img, .col img {
+    width: 100%;  /* Ensures GIFs scale down on smaller screens */
+    height: auto;
+  }
+}
+
+
+
+
+@media (max-width: 480px) {
+  .col-md-7 img, .col-md-2 img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+
+
+
+.card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+
+
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+
+   
+    .category-search-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.category-search-buttons form {
+    margin-bottom: 10px;
+}
+
+
+.category-card {
+    background-color: rgba(56, 142, 60, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+
+.category-card:hover {
+    background-color: rgba(56, 142, 60, 0.8);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px);
+}
+
+
+.category-card .card-title {
+    color: #ffffff;
+}
+
+
+.category-card .card-text {
+    color: #a5d6a7;
+}
+</style>
+<script>
+  // Automatically hide the alert after 5 seconds
+  setTimeout(function() {
+      const alert = document.querySelector('.alert');
+      if (alert) {
+          alert.classList.remove('show');
+      }
+  }, 5000);
+    // Save current scroll position and URL before the reload
+    window.addEventListener('beforeunload', function() {
+        localStorage.setItem('scrollPosition', window.scrollY);
+        localStorage.setItem('pageUrl', window.location.href);
+    });
+
+
+
+
+    // When the page loads, check if the saved URL matches the current URL
+    window.addEventListener('load', function() {
+        const scrollPosition = localStorage.getItem('scrollPosition');
+        const pageUrl = localStorage.getItem('pageUrl');
+
+
+
+
+        // If the URL matches, scroll to the saved position
+        if (pageUrl === window.location.href && scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
+            localStorage.removeItem('scrollPosition'); // Clear after use
+            localStorage.removeItem('pageUrl');
+        }
+
+
+
+
+        // // Trigger the fade-in effect
+        // document.querySelector('.fade-in').classList.add('show');
+    });
+
+
+
+
+  </script>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

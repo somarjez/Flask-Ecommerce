@@ -1,0 +1,52 @@
+.compact-card-style {
+    display: flex; /* Flexbox for horizontal layout */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space items evenly */
+    padding: 15px; /* Padding around the form */
+    background-color: #282c34; /* Dark background for the card */
+    color: white; /* White text color */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Shadow effect */
+    width: 100%; /* Full width */
+    height: 70px; /* Fixed height to approximately 2 inches */
+}
+
+.input-group {
+    flex: 1; /* Allow input groups to grow */
+    margin: 0 5px; /* Small margin between input groups */
+}
+
+.label-stylish {
+    display: block; /* Label as block for better spacing */
+    font-size: 0.8rem; /* Smaller font size */
+    color: #ffffff; /* Label color */
+}
+
+.custom-select {
+    width: 100%; /* Full width for the select box */
+    padding: 5px; /* Padding for the select box */
+    border-radius: 5px; /* Rounded corners for the select box */
+    font-size: 0.8rem; /* Smaller font size */
+}
+
+.input-small {
+    width: 100%; /* Full width for small inputs */
+    padding: 5px; /* Padding for the input box */
+    border-radius: 5px; /* Rounded corners for the input box */
+    font-size: 0.8rem; /* Smaller font size */
+}
+
+.funky-btn {
+    padding: 5px 10px; /* Button padding */
+    background-color: #213d24; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Pointer cursor for the button */
+    font-size: 0.8rem; /* Smaller font size */
+}
+
+.funky-btn:hover {
+    background-color: #23441b; /* Darker blue on hover */
+}
+

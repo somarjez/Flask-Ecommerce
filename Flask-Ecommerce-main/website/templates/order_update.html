@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Update Order {% endblock %}
+
+
+{% block body %}
+
+
+<style>
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+    :root {
+        --primary-bg: #719666;
+        --secondary-bg: #011b0f;
+        --accent-color: #f7fdff;
+        --text-primary: #0d270a;
+        --text-secondary: #ffffff;
+        --btn-hover: #4a6138;
+        --btn-danger-hover: #5d9e57;
+        --btn-secondary-hover: #243319;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+    h3 {
+        font-family: 'Century Gothic';
+        font-size: 1.75rem;
+        margin-top: 100px;
+        text-align: center;
+        padding: 0.75rem 0;
+        color: #e2e8f0;
+        font-weight: bold;
+    }
+
+    body {
+        background-color: var(--secondary-bg);
+        color: var(--text-primary);
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .container {
+        padding: 2rem;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+
+    .table {
+        border-collapse: separate;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        background-color: var(--primary-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px var(--shadow);
+    }
+
+
+    .table th, .table td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    }
+
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: var(--secondary-bg);
+        color: var(--accent-color);
+    }
+
+
+    .table tbody td {
+        background-color: var(--primary-bg);
+    }
+
+
+    .btnb {
+        border-radius: 30px;
+        padding: 0.75rem 1.25rem;
+        color: var(--accent-color);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+        font-weight: bold;
+        text-align: center;
+        margin: 0.5rem;
+        border: none;
+    }
+
+
+    .btnb-primary {
+        background-color: var(--secondary-bg);
+        border-color: var(--secondary-bg);
+    }
+
+
+    .btnb-primary:hover {
+        background-color: var(--btn-hover);
+        transform: translateY(-2px);
+    }
+
+
+    .btnb-warning {
+        background-color: var(--btn-secondary-hover);
+        border-color: var(--btn-secondary-hover);
+    }
+
+
+    .btnb-warning:hover {
+        background-color: var(--btn-danger-hover);
+        transform: translateY(-2px);
+    }
+
+
+</style>
+
+
+<div class="container">
+    <h3>Update Order</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" style="font-family: 'Century Gothic'; color: #ffffff; font-weight: bold; font-size: 20px;">
+                    Order Status
+                  </th>                  
+                  <th scope="col" style="font-family: 'Century Gothic'; color: #ffffff; font-weight: bold; font-size: 20px;">
+                    Action
+                  </th>                  
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <tr>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <td style="font-family: 'Century Gothic';">
+                        {{ form.order_status(class="form-select") }}
+                      </td>
+                      <td style="font-family: 'Century Gothic';">
+                        {{ form.update(class="btnb btnb-warning") }}
+                      </td>
+                     
+                </form>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Archived Items {% endblock %}
+
+
+{% block body %}
+
+
+<style>
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+    :root {
+        --primary-bg: #719666;
+        --secondary-bg: #011b0f;
+        --accent-color: #f7fdf7;
+        --text-primary: #0d270a;
+        --text-secondary: #ffffff;
+        --btn-hover: #4a6138;
+        --btn-danger-hover: #204b15;
+        --btn-secondary-hover: #4a6138;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+
+    body {
+        background-color: var(--secondary-bg);
+        color: var(--text-primary);
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    h2 {
+        font-size: 2rem;
+        font-family: 'Century Gothic';
+        margin: 0;
+        text-align: center;
+        padding: 1rem 0;
+        font-weight: bold; /* Make the "Archived Items" heading bold */
+        color: #e2e8f0; /* Change color of "Archived Items" heading */
+    }
+
+
+    .container {
+        font-family: 'Century Gothic';
+        padding: 8rem 1rem 1rem 1rem; /* Increased top padding */
+        width: 100%;
+        margin: 0 auto;
+    }
+
+
+    .table {
+        font-family: 'Century Gothic';
+        border-collapse: separate;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        background-color: var(--primary-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px var(--shadow);
+    }
+
+
+    .table th, .table td {
+        font-family: 'Century Gothic';
+        padding: 1rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+        background-color: var(--primary-bg); /* Ensure all cells have the same background color */
+        font-weight: bold; /* Make fonts inside the table bold */
+        color: #0d270a; /* Change color inside the table cells */
+    }
+
+
+    .table thead th {
+        font-family: 'Century Gothic';
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: var(--secondary-bg);
+        color: var(--accent-color);
+    }
+
+
+    .btnb {
+        font-family: 'Century Gothic';
+        border-radius: 30px;
+        padding: 0.75rem 1.25rem;
+        color: var(--accent-color);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+        font-weight: bold;
+        text-align: center;
+        margin: 0.5rem;
+        text-decoration: none; /* Remove underline */
+    }
+
+
+    .btnb-success {
+        font-family: 'Century Gothic';
+        background-color: #3a6f50;
+        border-color: #3a6f50;
+    }
+
+
+    .btnb-success:hover {
+        font-family: 'Century Gothic';
+        background-color: var(--btn-hover);
+        transform: translateY(-2px);
+    }
+
+
+    .btnb-danger {
+        font-family: 'Century Gothic';
+        background-color: #a94442;
+        border-color: #a94442;
+    }
+
+
+    .btnb-danger:hover {
+        font-family: 'Century Gothic';
+        background-color: var(--btn-danger-hover);
+        transform: translateY(-2px);
+    }
+
+
+    .btnb-secondary {
+        font-family: 'Century Gothic';
+        background-color: #5a6268;
+        border-color: #5a6268;
+    }
+
+
+    .btnb-secondary:hover {
+        font-family: 'Century Gothic';
+        background-color: var(--btn-secondary-hover);
+        transform: translateY(-2px);
+    }
+
+
+    .pagination .page-item .page-link {
+        color: var(--accent-color);
+        background-color: var(--secondary-bg);
+        border-color: var(--secondary-bg);
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        border-radius: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    .pagination .page-item.active .page-link {
+        background-color: #3a6f50;
+        border-color: #3a6f50;
+    }
+
+
+    .pagination .page-item:hover .page-link {
+        background-color: #2a5d47;
+    }
+
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+
+</style>
+
+
+<div class="container">
+    <h2>Archived Items</h2>
+   
+    {% if items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Date Added</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Previous Price</th>
+                <th scope="col">Current Price</th>
+                <th scope="col">In Stock</th>
+                <th scope="col">Description</th>
+                <th scope="col">Product Picture</th>
+                <th scope="col">Category</th>
+                <th scope="col">Flash Sale</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.date_added }}</td>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.previous_price }}</td>
+                <td>{{ item.current_price }}</td>
+                <td>{{ item.in_stock }}</td>
+                <td>{{ item.description }}</td>
+                <td>
+                    <img src="{{ item.product_picture }}" alt="{{ item.product_name }}" style="height: 50px; width: 50px; border-radius: 2px;">
+                </td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.flash_sale }}</td>
+                <td>
+                    <a href="/restore-item/{{ item.id }}" class="btnb btnb-success">Restore</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No archived items found.</p>
+    {% endif %}
+
+
+    <!-- Pagination Controls -->
+    <div class="pagination justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.archived_items', page=pagination.prev_num) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+               
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                </li>
+               
+                {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.archived_items', page=pagination.next_num) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+{% endblock %}
+
+

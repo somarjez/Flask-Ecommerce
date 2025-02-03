@@ -1,0 +1,688 @@
+
+
+.d-flex .btn{
+    background: #485642; /* Bootstrap primary blue */
+    border: 2px solid #485642; /* Matching border color */
+    border-radius: 8px;
+    color: #fff; /* White text */
+}
+.d-flex .btn:hover{
+    background: #485642; /* Darker blue on hover */
+    border: 2px solid #485642; /* Matching border color */
+}
+
+#right1 :hover{
+    color: #485642; /* Change text color to blue on hover */
+    transition: 300ms;
+}
+
+.row .right2 {
+    margin-left: -15px; /* Negative left margin to adjust positioning */
+    height: 180px; /* Set the height of the element */
+    width: 180px; /* Set the width of the element */
+    border-radius: 10px; /* Rounded corners with a radius of 10px */
+}
+
+
+.container .row .col .row .col a {
+    background-color: #485642;
+    padding: 10px; /* Inner padding for button */
+    border-radius: 10px;
+    text-decoration: none;
+    color: white; /* White text */
+    margin-right: 10px; /* Add margin to the right for separation */
+    font-size: 12;
+}
+
+.container .row .col .row .col a :hover {
+    background-color: #111212;
+}
+
+#items :hover {
+    color: #6B7F5C; /* Change text color to blue on hover */
+    transition: 200ms;
+}
+
+#column {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+}
+
+#column .col {
+    flex: 0 0 33.33%; /* Each column takes up 33.33% of the row, resulting in 3 columns */
+    box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
+/* Style for the .add-cart-btn class */
+.add-cart-btn {
+    position: relative; /* Position relative to its normal position */
+    padding: 10px 20px; /* Padding inside the button */
+    color: #6B7F5C; /* Text color */
+    border-radius: 25px; /* Rounded corners with a radius of 25px */
+    font-size: 14px; /* Font size of the text */
+    font-weight: 500; /* Font weight of the text */
+    cursor: pointer; /* Pointer cursor on hover */
+    overflow: hidden; /* Hide overflow content */
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    display: inline-flex; /* Inline flex container */
+    align-items: center; /* Center items vertically */
+    gap: 8px; /* Space between items */
+    min-width: 100px; /* Minimum width of the button */
+    justify-content: center; /* Center items horizontally */
+    text-decoration: none; /* Remove text underline */
+}
+
+.add-cart-btn:hover {
+    transform: scale(1.1); /* Zoom in slightly */
+    transition: transform 0.3s ease; /* Smooth transition effect */
+}
+
+.add-cart-btn i {
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.add-cart-btn:hover i {
+    transform: scale(1.2);
+}
+
+/* Style for the .btn-review class */
+.btn-review {
+    position: relative; /* Position relative to its normal position */
+    padding: 10px 20px; /* Padding inside the button */
+    color: #6B7F5C; /* Text color */
+    border-radius: 25px; /* Rounded corners with a radius of 25px */
+    font-size: 14px; /* Font size of the text */
+    font-weight: 500; /* Font weight of the text */
+    cursor: pointer; /* Pointer cursor on hover */
+    overflow: hidden; /* Hide overflow content */
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    display: inline-flex; /* Inline flex container */
+    align-items: center; /* Center items vertically */
+    gap: 8px; /* Space between items */
+    min-width: 100px; /* Minimum width of the button */
+    justify-content: center; /* Center items horizontally */
+    text-decoration: none; /* Remove text underline */
+}
+
+.btn-review:hover {
+    background: #6B7F5C;
+    color: white; /* Text color changes to white on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px #6B7F5C;
+}
+
+.btn-review i {
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-review:hover i {
+    transform: scale(1.2);
+    color: white; /* Ensure icon color also turns white on hover */
+}
+
+/* Cart bounce animation */
+@keyframes cartBounce {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.add-cart-btn:active i {
+    animation: cartBounce 0.6s ease;
+}
+
+/* Success state */
+.add-cart-btn.added {
+    background: #3b643d;
+    color: whitergb(59, 110, 76)
+}
+
+.add-cart-btn.added i {
+    transform: scale(1.2);
+}
+
+/* Disabled state */
+.add-cart-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* Loading state */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Style for the .add-cart-btn class when in loading state */
+.add-cart-btn.loading {
+    background: #f5f5f5; /* Light grey background color */
+    border-color: #f5f5f5; /* Light grey border color */
+    color: #999; /* Grey text color */
+    cursor: wait; /* Wait cursor to indicate loading */
+}
+
+/* Style for the <i> element within .add-cart-btn when in loading state */
+.add-cart-btn.loading i {
+    animation: spin 1s linear infinite; /* Spin animation with 1s duration, linear timing, and infinite repetition */
+}
+
+/* Product title styling */
+h6[style*="color: gray"] {
+    color: #485642 !important;
+    font-family: 'Times New Roman', serif;
+    font-size: 16px;
+    margin: 15px 0;
+    font-weight: 600;
+}
+
+/* Price styling */
+h5[style*="font-weight: 600"] {
+    color: #6B7F5C;
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+strike p[style*="color: gray"] {
+    color: #9ca3af !important;
+    font-size: 14px;
+    margin-top: -5px;
+}
+
+/* Add to cart button styling */
+.add-cart-btn {
+    margin: 15px 0;
+}
+
+/* Stock and reviews styling */
+.row p {
+    color: #6B7F5C;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.btn-link[style*="color: #6B8A"] {
+    color: #485642 !important;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+
+.btn-link[style*="color: #6B8A"]:hover {
+    color: #6B7F5C !important;
+    text-decoration: underline;
+}
+
+/* Product card styling */
+.col[style*="background-color: #dfd6c5"] {
+    background-color: white !important;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 300px;
+}
+
+
+.col[style*="background-color: #dfd6c5"]:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Product image styling */
+.col img[style*="height: 202px"] {
+    height: 220px !important;
+    width: 100% !important;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.col img[style*="height: 202px"]:hover {
+    transform: scale(1.05);
+}
+
+/* Product title styling */
+h6[style*="color: gray"] {
+    color: #485642 !important;
+    font-family: 'Times New Roman', serif;
+    font-size: 16px;
+    margin: 15px 0;
+    font-weight: 600;
+}
+
+/* Price styling */
+h5[style*="font-weight: 600"] {
+    color: #6B7F5C;
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+strike p[style*="color: gray"] {
+    color: #9ca3af !important;
+    font-size: 14px;
+    margin-top: -5px;
+}
+/* Add to cart button styling */
+.add-cart-btn {
+    margin: 15px 0;
+}
+
+.add-cart-btn a {
+    background-color: #485642;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+
+/* Wishlist button styling */
+.btn-secondary {
+    background-color: transparent !important;
+    border: 2px solid #485642 !important;
+    color: #485642 !important;
+    border-radius: 50% !important;
+    width: 40px;
+    height: 40px;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #485642 !important;
+    color: white !important;
+    transform: scale(1.1);
+}
+
+
+/* Stock and reviews styling */
+.row p {
+    color: #6B7F5C;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+
+.btn-link[style*="color: #6B8A"] {
+    color: #485642 !important;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+
+.btn-link[style*="color: #6B8A"]:hover {
+    color: #6B7F5C !important;
+    text-decoration: underline;
+}
+
+/* Flash sale banner styling */
+.col[style*="background-color: #cfc6b5"] {
+    background: linear-gradient(135deg,#3a582e, #557049) !important;
+    padding: 12px 20px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(72, 86, 66, 0.2);
+}
+
+
+.col[style*="background-color: #cfc6b5"] h6 {
+    color: white !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Items left badge */
+.row p:contains("Items Left") {
+    background-color: #f0f2f0;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.lobster-regular {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+/* Click Here link styling */
+.click-here-link {
+    color: #6B7F5C; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold text */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
+    padding: 2px 2px; /* Padding around the link */
+    border-radius: 1px; /* Rounded corners */
+}
+
+
+.click-here-link:hover {
+    color: #ffffff; /* Change text color on hover */
+    background-color: #6B7F5C; /* Change background color on hover */
+    box-shadow: 0 4px 8px #5b6a4f; /* Add shadow effect */
+}
+
+
+/* Fade-in animation */
+ @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+
+ /* Fade-out animation */
+@keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+
+
+    /* Slide-in animation */
+ @keyframes slideIn {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+
+    /* Apply animations to elements */
+.fade-in {
+        animation: fadeIn 1.3s forwards;
+    }
+
+ .slide-in {
+        animation: slideIn 1.3s forwards;
+    }
+
+    /* Optional: To remove display after fade out */
+ .hidden {
+        display: none;
+    }
+
+    /* General form styles */
+.form-control {
+    border-radius: 0.25rem; /* Slightly rounded corners */
+    border: 1px solid #050709; /* Default border color */
+}
+
+/* Hover effects for form fields PARA SA CART BUTTON*/
+
+
+/* Responsive adjustments for mobile devices */
+@media screen and (max-width: 768px) {
+
+
+    /* Adjust flexbox for small screens */
+    .d-flex .btn {
+        width: 100%; /* Make buttons full-width */
+        padding: 12px 0; /* Add padding for better touch target */
+    }
+
+
+    .row .right2 {
+        margin-left: 0; /* Remove margin on smaller screens */
+        height: 150px; /* Reduce height */
+        width: 150px; /* Reduce width */
+    }
+
+
+    .container .row .col .row .col a {
+        font-size: 14px; /* Adjust font size */
+        padding: 12px; /* Increase padding */
+        margin-right: 5px; /* Reduce margin */
+    }
+
+
+    /* Reduce column width on mobile */
+    #column .col {
+        flex: 0 0 50%; /* Make each column take up 50% of width on small screens */
+    }
+
+
+    /* Adjust product card styling */
+    .col[style*="background-color: #dfd6c5"] {
+        max-width: 100%; /* Ensure cards take up full width */
+        margin: 10px 0; /* Reduce margin */
+    }
+
+
+    .col[style*="background-color: #dfd6c5"]:hover {
+        transform: none; /* Remove hover effect */
+    }
+
+
+    .col img[style*="height: 202px"] {
+        height: 180px; /* Reduce image height */
+        width: 100%; /* Ensure images are responsive */
+    }
+
+
+    /* Adjust product title and price font size */
+    h6[style*="color: gray"] {
+        font-size: 14px; /* Reduce font size */
+    }
+
+
+    h5[style*="font-weight: 600"] {
+        font-size: 18px; /* Reduce font size */
+    }
+
+
+    /* Adjust buttons for smaller screens */
+    .add-cart-btn, .btn-review {
+        padding: 8px 16px; /* Reduce padding */
+        font-size: 12px; /* Adjust font size */
+        min-width: 80px; /* Adjust width */
+    }
+
+
+    .btn-secondary {
+        width: 35px; /* Reduce width for smaller buttons */
+        height: 35px; /* Adjust height */
+    }
+
+
+    .btn-link[style*="color: #6B8A"] {
+        font-size: 12px; /* Reduce font size */
+    }
+
+
+    /* Wishlist button hover effect */
+    .btn-secondary:hover {
+        transform: scale(1.05); /* Slightly increase button size */
+    }
+
+
+    /* Adjust stock and review text */
+    .row p {
+        font-size: 12px; /* Reduce font size */
+    }
+
+
+    /* Adjust Flash Sale banner */
+    .col[style*="background-color: #cfc6b5"] {
+        padding: 10px 15px; /* Reduce padding */
+    }
+
+
+    .col[style*="background-color: #cfc6b5"] h6 {
+        font-size: 16px; /* Reduce font size */
+    }
+
+
+    /* Adjust items left badge */
+    .row p:contains("Items Left") {
+        font-size: 10px; /* Reduce font size */
+        padding: 3px 8px; /* Adjust padding */
+    }
+}
+
+
+/* Further adjustments for very small screens */
+@media screen and (max-width: 480px) {
+
+
+    .d-flex .btn {
+        padding: 10px; /* Reduce padding */
+    }
+
+
+    .container .row .col .row .col a {
+        font-size: 12px; /* Smaller font for buttons */
+        padding: 10px 8px; /* Smaller padding */
+    }
+
+
+    /* Adjust the product card layout */
+    .col[style*="background-color: #dfd6c5"] {
+        max-width: 100%; /* Ensure the product card fills the screen */
+        padding: 15px 10px; /* Smaller padding */
+    }
+
+
+    /* Adjust button and icon sizes */
+    .add-cart-btn, .btn-review {
+        font-size: 12px; /* Smaller font size */
+        min-width: 70px; /* Reduce width */
+        padding: 8px 14px; /* Smaller padding */
+    }
+
+
+    .add-cart-btn a {
+        font-size: 14px; /* Smaller font size */
+    }
+
+
+    /* Adjust product image */
+    .col img[style*="height: 202px"] {
+        height: 160px; /* Reduce height */
+    }
+
+
+    /* Flash sale banner adjustments */
+    .col[style*="background-color: #cfc6b5"] {
+        padding: 8px 10px; /* Smaller padding */
+    }
+
+
+    /* Adjust items left badge */
+    .row p:contains("Items Left") {
+        font-size: 9px; /* Smaller font */
+        padding: 3px 5px; /* Adjust padding */
+    }
+
+
+    /* Improve button hover effects */
+    .add-cart-btn:hover, .btn-review:hover, .add-cart-btn a:hover {
+        transform: none; /* Remove translation on hover */
+    }
+}
+
+
+/* For ORDERVIEWS*/
+
+/* Custom search form styles */
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+}
+
+
+.form-select {
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #ddd; /* Light border */
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+
+.form-select:focus {
+    border-color: #496141; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(25, 51, 19, 0.5); /* Blue glow on focus */
+}
+
+
+.btn-sleek {
+    border-radius: 25px; /* Rounded corners for button */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(70, 61, 61, 0.8); /* Blue background */
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+
+.btn-sleek:hover {
+    background-color: rgba(70, 61, 61, 0.8); /* Darker blue on hover */
+    cursor: pointer;
+}
+
+
+/* Optional: Adjust spacing of the table */
+.table {
+    margin-top: 20px;
+}
+
+
+/* Optional: Smooth hover effect on table rows */
+.table-hover tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+
+/* Style for the text-danger class */
+.text-danger {
+    font-weight: bold; /* Bold text */
+    font-size: 1.2em; /* Font size of 1.2em */
+}
+
+/* Style for the .fas.fa-exclamation-circle class */
+.fas.fa-exclamation-circle {
+    margin-left: 5px; /* Margin to the left of 5px */
+    font-size: 1.5em; /* Font size of 1.5em */
+    vertical-align: middle; /* Align vertically to the middle */
+    color: red; /* Red color */
+}
+
+/* Ensure the page-wrapper takes up at least the full viewport height */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;  /* Arrange children vertically */
+    min-height: 100vh;       /* Full viewport height */
+}
+
+
+/* Main content takes up remaining space */
+.main-content {
+    flex: 1;
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %} Search {% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+<div class="container text-center fade-in" style="margin-top: 10px;">
+    <!-- Modernized Filter Form with Sleek Green Design -->
+    <form method="POST" action="{{ url_for('views.search') }}" class="compact-card-style" style="background-color: var(--primary-bg); border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 15px var(--shadow);">
+        <div class="input-group d-flex flex-wrap justify-content-center align-items-center">
+            <select name="category" id="category" class="form-select form-control-sleek mx-2 my-1" style="width: 200px; font-family: 'Century Gothic'; background-color: var(--secondary-bg); color: var(--accent-color);">
+                <option value="">-- Select Category --</option>
+                <option value="Living Room Furniture">Living Room</option>
+                <option value="Bedroom Furniture">Bedroom</option>
+                <option value="Dining Room Furniture">Dining Room</option>
+                <option value="Office Furniture">Office</option>
+                <option value="Outdoor Furniture">Outdoor</option>
+            </select>
+
+            <input type="number" name="min_price" id="min_price" placeholder="Min PHP" 
+                   class="form-control form-control-sleek mx-2 my-1" 
+                   style="width: 120px; font-family: 'Century Gothic'; background-color: var(--secondary-bg); color: var(--accent-color); border: none;">
+
+            <input type="number" name="max_price" id="max_price" placeholder="Max PHP" 
+                   class="form-control form-control-sleek mx-2 my-1" 
+                   style="width: 120px; font-family: 'Century Gothic'; background-color: var(--secondary-bg); color: var(--accent-color); border: none;">
+
+            <select name="min_rating" id="min_rating" class="form-select form-control-sleek mx-2 my-1" style="width: 150px; font-family: 'Century Gothic'; background-color: var(--secondary-bg); color: var(--accent-color);">
+                <option value="">-- Rating --</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+
+            <select name="popularity" id="popularity" class="form-select form-control-sleek mx-2 my-1" style="width: 180px; font-family: 'Century Gothic'; background-color: var(--secondary-bg); color: var(--accent-color);">
+                <option value="">-- Popularity --</option>
+                <option value="most">Most Popular</option>
+                <option value="least">Least Popular</option>
+            </select>
+
+            <button type="submit" class="btnb btnb-primary mx-2 my-1">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if items | length < 1 %}
+    <h3 style="color: white;">No Items Match your Search query</h3>
+{% else %}
+    <!-- Display search results -->
+    <div class="container text-center fade-in">
+        <div class="row fade-in" style="margin: 8px;">
+            <div class="col fade-in" style="display: flex; background-color: #cfc6b5; border-radius: 10px; padding: 7px; margin: 5px;">
+                <i class="bi bi-search"style="color: white;"></i><h6 class="fade-in" style="margin: 4px; color: #564b42;">RESULTS</h6>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center fade-in">
+        <div class="row" style="margin: 8px;" id="column">
+            {% for item, avg_rating in items %}
+                <div class="col" style="background-color: #dfd6c5;">
+                    <br>
+                    <a href="{{ url_for('views.view', product_id=item.id) }}">
+                        <img src="{{ item.product_picture }}" alt="{{ item.product_name }}" style="height: 202px; width: 180px; border-radius: 10px;" class="fade-in">
+                    </a><h6 class="fade-in" style="color: gray;">{{ item.product_name }}</h6>
+        
+                    <div class="row fade-in" style="margin-top: 10px;" >
+                        <div class="add-cart-btn fade-in">
+                            <a href="/add-to-cart/{{ item.id }}" >
+                                <i class="fas fa-shopping-cart"></i>
+                                Add
+                            </a>
+                            <a href="/add-to-wishlist/{{ item.id }}" class="btn btn-secondary"><i class="far fa-heart"></i></a>
+                        </div>
+        
+        
+                       
+        
+                        <div class="row fade-in">
+                           
+                            <h5 style="font: size 12px;font-family: 'Times New Roman', Times, serif;">PHP {{ item.current_price }}
+                               
+                            </h5><strike><p style="color: gray;">PHP {{ item.previous_price }}</p></strike>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>{{ item.in_stock }} Items Left</p>
+                        <p style="color: #254336; font-weight: bold;">Avg Rating: {{ avg_rating if avg_rating is not none else 'No Ratings' }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+<script>document.getElementById('min_rating').addEventListener('change', function() {
+    let rating = this.value;
+    let stars = "⭐".repeat(rating); // Create the star string based on the numeric rating
+    document.getElementById('min_rating').options[document.getElementById('min_rating').selectedIndex].innerHTML = stars;
+});
+</script>
+<style> :root {
+    --primary-bg: #011b0f;
+    --secondary-bg: #4e6148;
+    --accent-color: #f7fdff;
+    --text-primary: #0d270a;
+    --text-secondary: #c6dace;
+    --btn-hover: #4a6138;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.form-control-sleek {
+    font-family: 'Century Gothic';
+    background-color: var(--secondary-bg);
+    color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.form-control-sleek:focus {
+    outline: 2px solid var(--btn-hover);
+    box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .form-control-sleek, .form-select {
+        width: 100% !important;
+        margin: 0.5rem 0 !important;
+    }
+}
+::placeholder {
+        color: white;
+    }
+
+    .form-control-sleek::placeholder {
+    color: var(--accent-color);
+    opacity: 0.7;
+}
+
+.btnb {
+    font-family: 'Century Gothic';
+    border-radius: 20px;
+    padding: 0.75rem 1.25rem; /* Slightly increased padding */
+    color: var(--accent-color);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    margin: 0.5rem; /* Slightly increased margin */
+    font-size: 0.875rem; /* Slightly increased font size */
+}
+
+
+.btnb-primary {
+    font-family: 'Century Gothic';
+    background-color: var(--secondary-bg);
+    border-color: var(--secondary-bg);
+    text-decoration: none; /* Remove underline */
+}
+
+
+.btnb-primary:hover {
+    font-family: 'Century Gothic';
+    background-color: var(--btn-hover);
+    transform: translateY(-2px);
+    }
+</style>
+{% endblock %}

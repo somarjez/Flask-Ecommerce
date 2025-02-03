@@ -1,0 +1,102 @@
+/* Reset margin and set box-sizing to border-box for all elements */
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Set background properties for the body */
+body {
+    background-image: linear-gradient(to right top, #243642, #2d4d57, #38646a, #497d79, #629584);
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Center the base content absolutely within the base container */
+.base .base-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+/* Style the form within the base content */
+.base .base-content .form {
+    height: 500px;
+    width: 300px;
+    background: rgba(0, 0, 0, 0.521);
+    border: 1px solid #FF723A;
+    border-radius: 10px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Style the form header */
+.base .base-content .form h3 {
+    color: #20D489;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+}
+
+/* Style the horizontal rule within the form */
+.base .base-content .form hr {
+    width: 88%;
+    margin-top: 30px;
+    margin-left: 20px;
+    background-color: #FF723A;
+}
+
+/* Adjust margin for horizontal rule in signup form */
+#base-signup .base-content .form hr {
+    margin-top: 2px;
+}
+
+/* Adjust margin for inputs in signup form */
+#base-signup .base-content .form input {
+    margin-top: 5px;
+}
+
+/* Style email, password, and name fields */
+.base .base-content .email, .base .base-content .password, .base .base-content .name {
+    margin-top: 3px;
+    font-size: 22px;
+    font-weight: 500;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Style inputs within the form */
+.base .base-content .form input {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 17px;
+}
+
+/* Style buttons and links within the form */
+.base .base-content .form .buttons input, .base .base-content .form .buttons a {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 5 20px;
+    text-decoration: none;
+    color: #fff;
+    background: #20D489;
+    border: 2px solid #20D489;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for buttons and links */
+.base .base-content .form .buttons input:hover, .base .base-content .form .buttons a:hover {
+    background: transparent;
+    border: 1px solid #fff;
+}

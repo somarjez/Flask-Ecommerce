@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+
+{% block title %}Revenue Reports{% endblock %}
+
+{% block body %}
+<head>
+    <title>Revenue Reports Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    {% set chart_data = [] %}
+    {% for date, revenue in revenue_data %}
+        {% set _ = chart_data.append([date|string, revenue|float]) %}
+    {% endfor %}
+
+    {% set total_revenue = namespace(value=0) %}
+    {% for _, revenue in revenue_data %}
+        {% set total_revenue.value = total_revenue.value + revenue %}
+    {% endfor %}
+
+    {% set highest_revenue = namespace(value=0) %}
+    {% for _, revenue in revenue_data %}
+        {% if revenue > highest_revenue.value %}
+            {% set highest_revenue.value = revenue %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Revenue Reports</h1>
+            <p class="text-gray-600">Financial performance overview</p>
+        </div>
+
+        <!-- Flash Messages -->
+        <div class="messages mb-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block sm:inline">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="space-y-6">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Total Revenue Card -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-gray-500 text-sm font-medium">Total Revenue</h3>
+                    <p class="text-2xl font-bold text-gray-800">
+                        PHP {{ "%.2f"|format(total_revenue.value) }}
+                    </p>
+                    <div class="text-green-500 text-sm mt-2">
+                        ↑ 12% from previous period
+                    </div>
+                </div>
+
+                <!-- Average Revenue Card -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-gray-500 text-sm font-medium">Average Daily Revenue</h3>
+                    <p class="text-2xl font-bold text-gray-800">
+                        PHP {{ "%.2f"|format(total_revenue.value / revenue_data|length) }}
+                    </p>
+                </div>
+
+                <!-- Highest Revenue Day Card -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-gray-500 text-sm font-medium">Highest Revenue Day</h3>
+                    <p class="text-2xl font-bold text-gray-800">
+                        PHP {{ "%.2f"|format(highest_revenue.value) }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Data Table with Pagination -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">Detailed Revenue Data</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200" id="revenueTable">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Revenue</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Daily Change</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="tableBody">
+                            {% for order_date, total_revenue in revenue_data %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ order_date }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PHP {{ "%.2f"|format(total_revenue) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    {% if not loop.first %}
+                                        {% set prev_revenue = revenue_data[loop.index0 - 1][1] %}
+                                        {% set change = ((total_revenue - prev_revenue) / prev_revenue * 100) %}
+                                        <span class="{% if change >= 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                                            {{ "%.1f"|format(change) }}%
+                                        </span>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <!-- Pagination Controls -->
+                    <div class="flex justify-between items-center px-6 py-3 bg-gray-50">
+                        <div class="flex items-center space-x-2">
+                            <span>Rows per page:</span>
+                            <select id="rowsPerPage" class="form-select border rounded px-2 py-1">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button id="prevPage" class="px-4 py-2 border rounded hover:bg-gray-100">
+                                Previous
+                            </button>
+                            <span id="pageInfo">Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+                            <button id="nextPage" class="px-4 py-2 border rounded hover:bg-gray-100">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">Revenue Trend</h3>
+                <div class="relative h-80 overflow-hidden">
+                    <canvas id="revenueChart" data-revenue='{{ chart_data|tojson }}'></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart Configuration
+            const canvas = document.getElementById('revenueChart');
+            const ctx = canvas.getContext('2d');
+            
+            const revenueData = JSON.parse(canvas.dataset.revenue);
+            const dates = revenueData.map(item => item[0]);
+            const revenues = revenueData.map(item => item[1]);
+
+            // Convert date strings to more readable format
+            const formattedDates = dates.map(dateStr => {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            });
+
+            // Calculate dynamic y-axis properties
+            const maxRevenue = Math.max(...revenues);
+            const minRevenue = Math.min(...revenues);
+            const padding = maxRevenue * 0.1; // 10% padding
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: formattedDates,
+                    datasets: [{
+                        label: 'Daily Revenue',
+                        data: revenues,
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            min: Math.max(0, minRevenue - padding),
+                            max: maxRevenue + padding,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'PHP ' + Number(value).toLocaleString();
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Revenue'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 10,
+                            top: 10,
+                            bottom: 10
+                        }
+                    }
+                }
+            });
+
+            // Pagination Script
+            const tableBody = document.getElementById('tableBody');
+            const rowsPerPageSelect = document.getElementById('rowsPerPage');
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            const currentPageSpan = document.getElementById('currentPage');
+            const totalPagesSpan = document.getElementById('totalPages');
+
+            let currentPage = 1;
+            let rowsPerPage = 10;
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+            const totalRows = rows.length;
+
+            function updateTable() {
+                const startIndex = (currentPage - 1) * rowsPerPage;
+                const endIndex = startIndex + rowsPerPage;
+
+                rows.forEach((row, index) => {
+                    row.style.display = (index >= startIndex && index < endIndex) ? '' : 'none';
+                });
+
+                const totalPages = Math.ceil(totalRows / rowsPerPage);
+                
+                currentPageSpan.textContent = currentPage;
+                totalPagesSpan.textContent = totalPages;
+
+                prevPageBtn.disabled = currentPage === 1;
+                nextPageBtn.disabled = currentPage === totalPages;
+            }
+
+            rowsPerPageSelect.addEventListener('change', (e) => {
+                rowsPerPage = parseInt(e.target.value);
+                currentPage = 1;
+                updateTable();
+            });
+
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateTable();
+                }
+            });
+
+            nextPageBtn.addEventListener('click', () => {
+                const totalPages = Math.ceil(totalRows / rowsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateTable();
+                }
+            });
+
+            // Initial table setup
+            updateTable();
+        });
+    </script>
+</body>
+{% endblock %}

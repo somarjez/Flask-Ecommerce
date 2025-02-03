@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block title %} Update Profile {% endblock %}
+
+
+
+
+{% block body %}
+<div class="page-container">
+    <div class="container-wrapper">
+        <div class="form-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} fade show" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+
+
+
+            <!-- Form container with icon and titles at the top -->
+            <div class="form-header">
+                <div class="profile-icon" style="font-size: 30px;">
+                    👤
+                </div>                    
+                <h1>Update Your Profile</h1>
+                <p>Keep your information up to date</p>
+            </div>
+           
+            <form method="POST" enctype="multipart/form-data" class="update-form">
+                {{ form.hidden_tag() }}
+               
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">👤</div>
+                        <div class="input-field">
+                            <label for="username" style="font-family: 'Century Gothic', sans-serif; font-size: 16px;">{{ form.username.label }}</label>
+                            {{ form.username(class="form-control animate-input",
+                     placeholder="Enter username",
+                     style="background-color: transparent; color: #fff; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); font-family: 'Century Gothic', sans-serif;") }}
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">📧</div>
+                        <div class="input-field">
+                            <label for="email" style="font-family: 'Century Gothic', sans-serif;">{{ form.email.label }}</label>
+                            {{ form.email(class="form-control animate-input",
+                            placeholder="Enter email",
+                            style="background-color: transparent; color: #ffff; font-family: 'Century Gothic', sans-serif; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);",
+                            readonly=True) }}                  
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">🏠</div>
+                        <div class="input-field">
+                            <label for="address" style="font-family: 'Century Gothic'; font-size: 50px; color: #fff;">
+                                {{ form.address.label }}
+                            </label>                                
+                            {{ form.address(class="form-control animate-input",
+                            placeholder="Enter address",
+                            style="background-color: transparent; color: #fff; font-family: 'Century Gothic'; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);") }}                
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">📞</div>
+                        <div class="input-field">
+                            <label for="phone_number" style="font-family: 'Century Gothic'; font-size: 50px; color: #fff;">
+                                {{ form.phone_number.label }}
+                            </label>                                
+                            {{ form.phone_number(class="form-control animate-input",
+                            placeholder="Enter Phone Number",
+                            style="background-color: transparent; color: #fff; font-family: 'Century Gothic'; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);") }}                
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">📸</div>
+                        <div class="input-field">
+                            <label for="profile_picture" style="font-family: 'Century Gothic';">{{ form.profile_picture.label }}</label>
+                            {{ form.profile_picture(class="form-control animate-input") }}
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="button-group">
+                    <button type="submit" class="btnm btnm-primary">{{ form.update_profile.label }}</button>
+                    <a href="{{ url_for('auth.profile', customer_id=customer.id) }}" class="btnm btnm-primary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .page-container {
+        min-height: 100vh;
+        margin-left: 10;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-image: url("{{ url_for('static', filename='images/hahaha.gif') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+
+    .container-wrapper {
+        padding: 2rem;
+        width: 100%;
+        max-width: 600px;
+        margin-left: 4rem;
+    }
+
+
+    .form-container {
+        background: linear-gradient(135deg, #4a9b74, #3b7c5a, #2b4d3e);
+        padding: 1rem;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 8px 30px rgba(209, 211, 87, 0.1);
+    }
+
+
+
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+
+
+
+    .form-header h1 {
+        font-size: 2rem;
+        color: #fcf8f8;
+        font-family: 'Century Gothic';
+    }
+
+
+
+
+    .form-header p {
+        font-size: 1.1rem;
+        color: #ffffff;
+        font-family: 'Century Gothic';
+        margin-top: 0.2rem;
+    }
+
+
+
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+
+
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0rem;
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+
+
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+    }
+
+
+
+
+    .form-control:focus {
+        outline: none;
+        border-color: #e7fd66;
+        box-shadow: 0 0 0 2px rgba(42, 78, 90, 0.1);
+    }
+
+
+
+
+    /* Input Hover Effect */
+    .input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background-color: transparent;
+        border: 2px solid rgba(62, 77, 69, 0.25);
+        border-radius: 20px;
+        backdrop-filter: blur(55px);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+
+
+
+    .input-wrapper:hover {
+        background: #6b9482;
+        transform: translateX(5px);
+    }
+
+
+
+
+    .input-icon {
+        width: 40px;
+        height: 40px;
+        background: #e9de7e;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+
+
+
+    .input-field {
+        flex: 1;
+    }
+
+
+
+
+    /* Button Styles */
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+
+
+
+    .btnm {
+        flex: 1;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+
+
+
+    .btnm-primary {
+        background: rgb(190, 177, 104);
+        color: rgb(255, 255, 255);
+        font-family: 'Century Gothic';
+        font-weight: bold;
+    }
+
+
+
+
+    .btnm-primary:hover {
+        background: #7d813f;
+    }
+
+
+
+
+    .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+
+
+
+
+    .alert-success {
+        background: #e3f9e5;
+        color: #1c7c4e;
+        border: 1px solid #1c7c4e;
+    }
+
+
+
+
+    .alert-danger {
+        background: #fee7e7;
+        color: #d92d20;
+        border: 1px solid #d92d20;
+    }
+
+
+
+
+    @media (max-width: 768px) {
+        .split-container {
+            flex-direction: column;
+        }
+
+
+
+
+        .left-panel, .right-panel {
+            padding: 2rem 1rem;
+        }
+
+
+
+
+        .form-container {
+            margin: 0;
+            max-width: 100%;
+        }
+
+
+
+
+        .button-group {
+            flex-direction: column;
+        }
+
+
+
+
+        .illustration-container {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

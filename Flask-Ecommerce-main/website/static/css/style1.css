@@ -1,0 +1,355 @@
+/* Style for the body element */
+body {
+    background-color: #f4f6f9; /* Light grey background color */
+    font-family: Arial, sans-serif; /* Font family */
+}
+
+/* Style for the place order button */
+.place-order-btn {
+    background-color: #353c32; /* Dark grey background color */
+    border: none; /* No border */
+    color: #fff; /* White text color */
+    padding: 0.5rem 1rem; /* Padding inside the button */
+    font-size: 1rem; /* Font size of the text */
+    border-radius: 4px; /* Rounded corners with a radius of 4px */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Style for the table */
+.table {
+    width: 80%; /* Table width */
+    margin: 2rem auto; /* Margin around the table */
+    border-radius: 8px; /* Rounded corners with a radius of 8px */
+    overflow: hidden; /* Hide overflow content */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Box shadow for the table */
+}
+
+/* Style for the table header */
+.table thead {
+    background-color: #343a40; /* Dark grey background color */
+    color: #fff; /* White text color */
+    font-size: 1.1em; /* Font size of the text */
+}
+
+/* Style for table cells */
+.table th, .table td {
+    padding: 1rem; /* Padding inside the cells */
+    text-align: center; /* Center align text */
+}
+
+/* Style for table rows on hover */
+.table-hover tbody tr:hover {
+    background-color: #e9ecef; /* Light grey background color on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #353c32; /* Dark grey background color */
+    border: none; /* No border */
+    color: #fff; /* White text color */
+    padding: 0.5rem 1rem; /* Padding inside the button */
+    font-size: 1rem; /* Font size of the text */
+    border-radius: 4px; /* Rounded corners with a radius of 4px */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Button hover effect */
+.btn-primary:hover {
+    background-color: #3e4939; /* Darker grey background color on hover */
+}
+
+/* Table responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .table {
+        width: 95%; /* Table width on small screens */
+    }
+
+    .table th, .table td {
+        font-size: 0.9em; /* Smaller font size for table cells */
+    }
+}
+
+/* Style for the box container */
+.box-container {
+    display: flex; /* Flexbox layout */
+    flex-wrap: wrap; /* Wrap flex items */
+    gap: 2rem; /* Gap between flex items */
+    justify-content: center; /* Center align flex items */
+    padding: 2rem; /* Padding inside the container */
+}
+
+/* Style for individual boxes */
+.box {
+    width: 250px; /* Box width */
+    height: 150px; /* Box height */
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Center align items vertically */
+    justify-content: center; /* Center align items horizontally */
+    background-color: #00ff08; /* Green background color */
+    color: #fff; /* White text color */
+    border-radius: 8px; /* Rounded corners with a radius of 8px */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for the box */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and box shadow */
+    text-align: center; /* Center align text */
+    text-decoration: none; /* Remove text underline */
+}
+
+/* Box hover effect */
+.box:hover {
+    transform: scale(1.05); /* Scale up the box on hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Larger box shadow on hover */
+}
+
+/* Style for links within the box */
+.box-link {
+    color: inherit; /* Inherit text color */
+    text-decoration: none; /* Remove text underline */
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Column layout */
+    align-items: center; /* Center align items */
+}
+
+/* Style for topic headings */
+.topic-heading {
+    font-size: 1.6rem; /* Font size of the text */
+    font-weight: bold; /* Bold text */
+    margin: 0; /* No margin */
+}
+
+/* Style for text paragraphs */
+.text p {
+    margin: 0.5rem 0 0; /* Margin around the paragraph */
+    font-size: 0.9rem; /* Font size of the text */
+}
+
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .box {
+        width: 100%;
+    }
+}
+
+/* Style for the reports section */
+.reports-section {
+    margin: 2rem auto; /* Margin around the section */
+    padding: 2rem; /* Padding inside the section */
+    width: 80%; /* Section width */
+    background-color: #ffffff; /* White background color */
+    border-radius: 12px; /* Rounded corners with a radius of 12px */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* Box shadow for the section */
+    text-align: center; /* Center align text */
+}
+
+/* Style for the heading within the reports section */
+.reports-section h2 {
+    margin-bottom: 2rem; /* Margin below the heading */
+    font-size: 2rem; /* Font size of the heading */
+    color: #364520; /* Text color */
+}
+
+/* Style for the report boxes */
+.report-box {
+    padding: 2rem; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners with a radius of 10px */
+    margin: 1.5rem 0; /* Margin around the box */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Box shadow for the box */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and box shadow */
+    text-align: left; /* Left align text */
+    color: #ffffff; /* Text color for better contrast */
+}
+
+/* Hover effect for the report boxes */
+.report-box:hover {
+    transform: translateY(-5px); /* Move the box up on hover */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* Larger box shadow on hover */
+}
+
+/* Style for the heading within the report boxes */
+.report-box h3 {
+    margin: 0; /* No margin */
+    font-size: 1.5rem; /* Font size of the heading */
+}
+
+/* Style for the paragraph within the report boxes */
+.report-box p {
+    margin-top: 0.5rem; /* Margin above the paragraph */
+    font-size: 0.9rem; /* Font size of the text */
+}
+
+/* Style for links within the report boxes */
+.report-box a {
+    text-decoration: none; /* Remove text underline */
+    color: inherit; /* Inherit text color */
+}
+
+/* Hover effect for the heading within links in the report boxes */
+.report-box a:hover h3 {
+    text-decoration: underline; /* Underline on hover for better interaction */
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+    .reports-section {
+        width: 95%; /* Section width on small screens */
+        padding: 1rem; /* Padding inside the section */
+    }
+
+    .report-box {
+        padding: 1.5rem; /* Padding inside the box */
+    }
+}
+
+/* styles.css (make sure to link this in your base.html) */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.footer {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 10px 0;
+    background-color: #f1f1f1; /* Adjust as needed */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
+.style-script-regular {
+    font-family: "Style Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.brand-image {
+    width: 70px;
+    height: 70px;
+    right: 20px;
+    vertical-align: middle;
+}
+
+/* Ensuring the page background remains fixed and stretches properly */
+body {
+    background: #485642;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+/* Ensure the alert box is fixed on small screens */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #485642;
+    color: white;
+    z-index: 1050;
+}
+
+.navbar-toggler-icon {
+    background-color: white;
+}
+
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+/* Adjustments for mobile-friendly search form */
+.navbar .d-flex {
+    margin-right: 10px;
+    width: 100%;
+}
+
+.form-control {
+    width: 100%;
+}
+
+/* Responsive dropdown */
+.dropdown-item {
+    background-color: #ffffff; /* White background */
+    padding: 12px 20px; /* Increased padding for balanced spacing */
+    text-decoration: none;
+    color: rgb(0, 0, 0); /* Black text by default */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+
+/* Initial state of the navbar */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Initial state of the navbar */
+.navbar {
+    background-color: rgb(0, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: transform 0.9s ease-in-out;
+}
+
+
+/* Adjusting body margin to prevent content jump when navbar hides */
+body {
+    padding-top: 90px; /* Adjust according to the height of your navbar */
+}
+
+.return-to-top-btn {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background-color: #28a745; /* Green color */
+color: white;
+border: none;
+padding: 15px;  
+border-radius: 50%;  /* Circular button */
+font-size: 24px;      /* Larger font size */
+font-weight: bold;
+cursor: pointer;
+display: none;        /* Hidden by default */
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect for the button */
+.return-to-top-btn:hover {
+background-color: #218838;  /* Darker green on hover */
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);  /* Enhance shadow on hover */
+transform: translateY(-5px);  /* Slight upward motion */
+}
+
+/* Active (click) state */
+.return-to-top-btn:active {
+transform: translateY(2px);  /* Slight downward motion when clicked */
+}
+

@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+
+{% block title %} Cart {% endblock %}
+
+{% block head %}
+<!-- Include Poppins font from Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container my-5 fade-in" style="font-family: 'Poppins', sans-serif;">
+    <div class="row">
+        {% if cart %}
+        <h1 class="text-center mb-5 fade-in" style="color: white; font-weight: bold;">Shopping Cart</h1>
+        <div class="col-lg-12 fade-in">
+            <div class="card fade-in">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="select-all-items">
+                        <label class="form-check-label" for="select-all-items">
+                            Select All Items
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body fade-in">
+                    <form method="POST" action="{{ url_for('views.place_order') }}">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                {% for item in cart %}
+                                <div class="row align-items-center cart-item" data-product-id="{{ item.product.id }}">
+                                    <div class="col-lg-1 d-flex align-items-center">
+                                        <input class="form-check-input item-checkbox large-checkbox" type="checkbox" 
+                                               id="item-{{ item.id }}" 
+                                               name="selected_items"
+                                               value="{{ item.id }}"
+                                               data-price="{{ item.product.current_price }}"
+                                               data-quantity="{{ item.quantity }}">
+                                    </div>
+                                    <div class="col-lg-2 text-center">
+                                        <!-- Make the image clickable and redirect to search results -->
+                                        <a href="{{ url_for('views.view', product_id=item.id) }}">
+                                            <img src="{{ item.product.product_picture }}" 
+                                                 alt="{{ item.product.product_name }}" 
+                                                 class="img-fluid img-thumbnail shadow-sm" 
+                                                 height="150px" 
+                                                 width="150px"
+                                                 data-product-id="{{ item.product.id }}">
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <div>
+                                            <h3 style="font-weight: bold;">{{ item.product.product_name }}</h3>
+                                            <div class="my-3">
+                                                <label for="quantity">Quantity</label>
+                                                <a class="minus-cart btn" pid="{{ item.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
+                                                <span id="quantity-{{ item.id }}">{{ item.quantity }}</span>
+                                                <a class="plus-cart btn" pid="{{ item.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="mb-0"><span><strong>PHP {{ item.product.current_price }}</strong></span></p>
+                                                <div class="d-flex align-items-center">
+                                                    <a href="" class="remove-cart btn btn-sm btn-secondary me-2" pid="{{ item.id }}">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                    <a href="/add-to-wishlist/{{ item.product.id }}" 
+                                                       class="btn btn-secondary wishlist-btn" 
+                                                       data-product-id="{{ item.product.id }}">
+                                                        <i class="far fa-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-4 fade-in">
+                                <div class="card fade-in">
+                                    <div class="card-body">
+                                        <h3 style="font-weight: bold;">Cart Summary</h3>
+                                        <p>Address: {{customer.address}}</p>
+                                        <hr color="black">
+                                        
+                                        <!-- Payment Method Selection -->
+                                        <div class="mb-3">
+                                            <h5>Select Payment Method</h5>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="cod" value="Cash On Delivery" checked>
+                                                <label class="form-check-label" for="cod">
+                                                    Cash On Delivery
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="PayPal" disabled>
+                                                <label class="form-check-label" for="paypal">
+                                                    PayPal (UNAVAILABLE)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="bank_transfer" value="Bank Transfer" disabled>
+                                                <label class="form-check-label" for="bank_transfer">
+                                                    Bank Transfer (UNAVAILABLE)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <ul class="list-group" id="summary-list">
+                                            <!-- Dynamically populated summary items will go here -->
+                                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                                <div style="margin-top: 15px;">
+                                                    <strong>Total</strong><small>(Including Shipping)</small>
+                                                </div>
+                                                <span><strong>PHP </strong><span id="totalamount"><strong>0.00</strong></span></span>
+                                            </li>
+                                        </ul>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary" id="place-order-btn">Place Order</button>
+                                            <button type="button" class="btn btn-primary mt-2" id="download-invoice-btn">Download Invoice</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        {% else %}
+        <h1 class="text-center mb-5" style="color: white; font-weight: bold;">Your Cart is Empty</h1>
+        <h2 class="text-center mb-5" style="color: white;">Don't miss out on every exciting deals</h2>
+        <div class="d-flex justify-content-center">
+            <form class="d-flex" role="search" action="/search" method="POST">
+                <button class="btn" type="submit"
+                    style="background-color: #254336; color: white; padding: 8px 30px; font-size: 18px; border: 2px solid #254336; border-radius: 25px; cursor: pointer; text-decoration: none;">
+                    Browse More...
+                </button>
+            </form>
+        </div>
+        
+        {% endif %}
+    </div>
+</div>
+<!-- Include jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllCheckbox = document.getElementById('select-all-items');
+        const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+        const summaryList = document.getElementById('summary-list');
+        const totalAmountElement = document.getElementById('totalamount');
+        const placeOrderBtn = document.getElementById('place-order-btn');
+        const shippingFee = 200; // Fixed shipping fee
+
+        selectAllCheckbox.addEventListener('change', function() {
+            itemCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateCartSummary();
+        });
+
+        itemCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                selectAllCheckbox.checked = Array.from(itemCheckboxes).every(cb => cb.checked);
+                updateCartSummary();
+            });
+        });
+
+        document.querySelectorAll('.plus-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const itemId = this.getAttribute('pid');
+                const quantityElement = document.getElementById(`quantity-${itemId}`);
+                let quantity = parseInt(quantityElement.textContent);
+                quantity++;
+                quantityElement.textContent = quantity;
+                updateCartSummary();
+            });
+        });
+
+        document.querySelectorAll('.minus-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const itemId = this.getAttribute('pid');
+                const quantityElement = document.getElementById(`quantity-${itemId}`);
+                let quantity = parseInt(quantityElement.textContent);
+                if (quantity > 1) {
+                    quantity--;
+                    quantityElement.textContent = quantity;
+                    updateCartSummary();
+                }
+            });
+        });
+
+        function updateCartSummary() {
+            const existingSummaryItems = summaryList.querySelectorAll('.summary-item');
+            existingSummaryItems.forEach(item => item.remove());
+
+            let totalAmount = 0;
+
+            itemCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const itemId = checkbox.value;
+                    const productName = checkbox.closest('.cart-item').querySelector('h3').textContent;
+                    const price = parseFloat(checkbox.dataset.price);
+                    const quantity = parseInt(document.getElementById(`quantity-${itemId}`).textContent);
+                    const itemTotal = price * quantity;
+
+                    const summaryItemElement = document.createElement('li');
+                    summaryItemElement.classList.add('list-group-item', 'summary-item', 'd-flex', 'justify-content-between', 'align-items-center', 'border-0', 'px-0', 'pb-0');
+                    summaryItemElement.innerHTML = `
+                        <div>
+                            <strong>${productName}</strong><br>
+                            Quantity: ${quantity}<br>
+                            Price: PHP ${price.toFixed(2)}
+                        </div>
+                        <span>PHP ${itemTotal.toFixed(2)}</span>
+                    `;
+
+                    const totalLine = summaryList.querySelector('li:last-child');
+                    summaryList.insertBefore(summaryItemElement, totalLine);
+
+                    totalAmount += itemTotal;
+                }
+            });
+
+            totalAmount += shippingFee; // Add the fixed shipping fee
+            totalAmountElement.textContent = totalAmount.toFixed(2);
+            placeOrderBtn.disabled = totalAmount === shippingFee; // Disable if only shipping fee is present
+        }
+
+        updateCartSummary();
+
+        const downloadInvoiceBtn = document.getElementById('download-invoice-btn');
+        if (!downloadInvoiceBtn) return;
+
+        downloadInvoiceBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const { jsPDF } = window.jspdf;
+            if (!jsPDF) {
+                alert('PDF library not loaded');
+                return;
+            }
+
+            try {
+                const selectedItems = [];
+                const itemCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+
+                if (itemCheckboxes.length === 0) {
+                    alert('Please select items to generate an invoice');
+                    return;
+                }
+
+                itemCheckboxes.forEach(checkbox => {
+                    const cartItem = checkbox.closest('.cart-item');
+                    const productName = cartItem.querySelector('h3').textContent;
+                    const quantityElement = cartItem.querySelector(`#quantity-${checkbox.value}`);
+                    const priceElement = cartItem.querySelector('p strong');
+
+                    selectedItems.push({
+                        name: productName,
+                        quantity: parseInt(quantityElement.textContent),
+                        price: parseFloat(priceElement.textContent.replace('PHP ', ''))
+                    });
+                });
+
+                const paymentMethodElement = document.querySelector('input[name="payment_method"]:checked');
+                const paymentMethod = paymentMethodElement ? paymentMethodElement.value : 'Not Selected';
+
+                const customerAddress = "{{ customer.address }}" || 'Address Not Provided';
+
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const primaryColor = '#2c3e50';
+                const secondaryColor = '#34495e';
+                const textColor = '#333333';
+
+                const pageWidth = doc.internal.pageSize.width;
+                const pageHeight = doc.internal.pageSize.height;
+                const margin = 10;
+
+                doc.setFillColor(primaryColor);
+                doc.rect(0, 0, pageWidth, 30, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Order Invoice', pageWidth / 2, 20, { align: 'center' });
+
+                doc.setTextColor(textColor);
+
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`Customer Address: ${customerAddress}`, margin, 40);
+
+                doc.text(`Payment Method: ${paymentMethod}`, margin, 50);
+
+                let yOffset = 60;
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Order Summary', margin, yOffset);
+
+                yOffset += 10;
+                doc.setFillColor(secondaryColor);
+                doc.setTextColor(255, 255, 255);
+                doc.rect(margin, yOffset, pageWidth - (2 * margin), 10, 'F');
+                doc.text('Product', margin + 5, yOffset + 7, { align: 'left' });
+                doc.text('Quantity', pageWidth / 2, yOffset + 7, { align: 'center' });
+                doc.text('Price', pageWidth - margin - 5, yOffset + 7, { align: 'right' });
+
+                doc.setTextColor(textColor);
+                doc.setFont('helvetica', 'normal');
+
+                const itemHeight = 10;
+                const verticalPadding = 5; // Increased vertical padding
+
+                let totalAmount = 0;
+
+                selectedItems.forEach((item, index) => {
+                    yOffset += itemHeight + verticalPadding;
+
+                    if (yOffset + itemHeight > pageHeight - 30) {
+                        doc.addPage();
+                        yOffset = 20;
+                    }
+
+                    const itemTotal = item.price * item.quantity;
+                    totalAmount += itemTotal;
+
+                    doc.text(item.name, margin + 5, yOffset, { align: 'left' });
+                    doc.text(item.quantity.toString(), pageWidth / 2, yOffset, { align: 'center' });
+                    doc.text(`PHP ${item.price.toFixed(2)}`, pageWidth - margin - 5, yOffset, { align: 'right' });
+
+                    yOffset += itemHeight;
+
+                    doc.setDrawColor(220, 220, 220);
+                    doc.line(margin, yOffset, pageWidth - margin, yOffset);
+                    yOffset += 2;
+                });
+
+                if (yOffset + 30 > pageHeight - 30) {
+                    doc.addPage();
+                    yOffset = 20;
+                }
+
+                yOffset += 10;
+                doc.setFont('helvetica', 'bold');
+                doc.text('Financial Summary', margin, yOffset);
+
+                yOffset += 8;
+                doc.setFont('helvetica', 'normal');
+                doc.text(`Total (Excl. Shipping):`, margin, yOffset);
+                doc.text(`PHP ${totalAmount.toFixed(2)}`, pageWidth - margin - 5, yOffset, { align: 'right' });
+
+                yOffset += 8;
+                doc.text(`Shipping Fee:`, margin, yOffset);
+                doc.text(`PHP ${shippingFee.toFixed(2)}`, pageWidth - margin - 5, yOffset, { align: 'right' });
+
+                totalAmount += shippingFee;
+
+                yOffset += 8;
+                doc.setFont('helvetica', 'bold');
+                doc.text(`Total (Inc. Shipping):`, margin, yOffset);
+                doc.text(`PHP ${totalAmount.toFixed(2)}`, pageWidth - margin - 5, yOffset, { align: 'right' });
+
+                doc.setDrawColor(200, 200, 200);
+                doc.line(margin, pageHeight - 20, pageWidth - margin, pageHeight - 20);
+                doc.setFontSize(8);
+                doc.text('Thank you for your purchase!', pageWidth / 2, pageHeight - 10, { align: 'center' });
+
+                doc.save(`invoice_${new Date().toISOString().split('T')[0]}.pdf`);
+
+            } catch (error) {
+                console.error('Error generating invoice:', error);
+                alert('Failed to generate invoice. Please try again or contact support.');
+            }
+        });
+    });
+</script>
+
+<style>
+    .large-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+    h1, h3, p, label, button {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+{% endblock %}

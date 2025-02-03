@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Customers {% endblock %}
+
+
+{% block body %}
+
+
+<style>
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+    :root {
+        --primary-bg: #719666;
+        --secondary-bg: #011b0f;
+        --accent-color: #f7fdff;
+        --text-primary: #0d270a;
+        --text-secondary: #c6dace;
+        --btn-hover: #4a6138;
+        --btn-danger-hover: #011b0f;
+        --btn-secondary-hover: #4a6138;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+
+    body {
+        background-color: var(--secondary-bg);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 0;
+    }
+
+
+    h1 {
+        font-family: 'Century Gothic';
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+        padding: 1rem 0;
+        color: var(--accent-color);
+    }
+
+
+    .container {
+        font-family: 'Century Gothic';
+        padding: 8rem 1rem 1rem 1rem;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+
+    .table {
+        font-family: 'Century Gothic';
+        border-collapse: separate;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        background-color: var(--primary-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px var(--shadow);
+    }
+
+
+    .table th, .table td {
+        font-family: 'Century Gothic';
+        padding: 1rem;
+        border-top: 1px solid #dee2e6;
+        text-align: center;
+        font-weight: bold; /* Ensure bold font */
+    }
+
+
+    .table thead th {
+        font-family: 'Century Gothic';
+        border-bottom: 2px solid #dee2e6;
+        background-color: var(--secondary-bg);
+        color: var(--accent-color);
+    }
+
+
+    .table tbody td {
+        font-family: 'Century Gothic';
+        background-color: var(--primary-bg);
+    }
+
+
+    .profile-img img {
+        font-family: 'Century Gothic';
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+
+    .profile-initial {
+        font-family: 'Century Gothic';
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--text-secondary);
+        color: var(--primary-bg);
+        text-align: center;
+        line-height: 50px;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+
+    .pagination .page-item .page-link {
+        color: var(--accent-color);
+        background-color: var(--secondary-bg);
+        border-color: var(--secondary-bg);
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        border-radius: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    .pagination .page-item.active .page-link {
+        background-color: #3a6f50;
+        border-color: #3a6f50;
+    }
+
+
+    .pagination .page-item:hover .page-link {
+        background-color: #2a5d47;
+    }
+
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+
+</style>
+
+
+<div class="container">
+    <h1>Customer Management</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Customer ID</th>
+                <th scope="col">Username</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Date Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.username }}</td>
+                <td>
+                    {% if customer.profile_picture %}
+                    <div class="profile-img">
+                        <img src="{{ url_for('auth.get_image', filename=customer.profile_picture) }}" alt="Profile Picture">
+                    </div>
+                    {% else %}
+                    <div class="profile-img">
+                        <span class="profile-initial">{{ customer.username[0]|upper }}</span>
+                    </div>
+                    {% endif %}
+                </td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.address }}</td>
+                <td>{{ customer.date_joined }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!-- Pagination Controls -->
+    <div class="pagination justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.display_customers', page=pagination.prev_num) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+               
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                </li>
+               
+                {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.display_customers', page=pagination.next_num) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,347 @@
+{% extends 'forms.html' %}
+
+{% block title %} Sign Up {% endblock %}
+
+{% block body %}
+
+<!-- Sign Up section start -->
+
+<section class="base" id="base-signup">
+    <div class="base-content fade-in">
+        <div class="form slide-down">
+            <h1 class="fade-in-up">Create an account <br> to shop</h1>
+            <hr class="first">
+            <form method="POST" id="signup-form" class="fade-in-up">
+                {{ form.hidden_tag() }}
+
+                <div class="inputbox fade-in">
+                    <p style="margin: 0;">Email Address</p>
+                    {{ form.email(class="form-input", disabled=True) }}
+                    <input type="hidden" name="email" value="{{ form.email.data }}">
+
+                </div>
+                <div class="inputbox fade-in">
+                    {{ form.username(class="form-input") }}
+                    <label for="username">User Name</label>
+                </div>
+                <div class="inputbox fade-in">
+                    {{ form.password1(class="form-input", id="password1") }}
+                    <label for="password1">Password</label>
+                    <div id="password-strength" class="password-strength"></div>
+                </div>
+                <div class="inputbox fade-in">
+                    {{ form.password2(class="form-input", id="password2") }}
+                    <label for="password2">Confirm Password</label>
+                    <div id="password-match" class="password-match"></div>
+                </div>
+
+                <div class="terms fade-in" style="display: flex; align-items: center; margin-top: 20px;">
+                    <input type="checkbox" id="terms" name="terms" style="margin-right: 8px;">
+                    <label for="terms" style="display: inline;">I agree to the <a href="{{ url_for('auth.terms') }}">Terms and Conditions</a>.</label>
+                </div>
+
+                <div class="buttons fade-in-up">
+                    <a href="/login" class="forget">Login</a>
+                    {{ form.submit(class="submit-button", disabled="disabled") }}
+                </div>
+
+                <div class="buttons fade-in-up" style="margin-top: 10px; display: flex; justify-content: center;">
+                    <a href="/" class="forget">Go Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>    document.addEventListener('DOMContentLoaded', function() {
+    var emailInput = document.getElementById('email');
+    emailInput.classList.add('typed-animation');
+});</script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    .typed-animation {
+        /* Add your animation styles here */
+        animation: typing 2s steps(20, end);
+    }
+
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    /* Sign Up form container styling */
+    .base {
+        position: relative;
+        max-width: 400px;
+        background-color: transparent;
+        border: 2px solid rgba(107, 138, 122, 0.25);
+        border-radius: 20px;
+        backdrop-filter: blur(55px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 3rem;
+        opacity: 0; /* Start hidden */
+        animation: fadeIn 1s forwards; /* Fade in animation */
+        box-shadow: 0 4px 15px rgba(107, 138, 122, 0.5); /* Adjust values as needed */
+    }
+
+    .base-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000000;
+    }
+
+    /* Animation Styles */
+    .fade-in {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .slide-down {
+        animation: slideDown 1s ease-in-out;
+    }
+
+    .fade-in-up {
+        animation: fadeInUp 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+        0% { transform: translateY(-30px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+        0% { transform: translateY(30px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Form heading */
+    h1 {
+        font-size: 2rem;
+        color: #000000;
+        text-align: center;
+    }
+
+    /* Input box styling */
+    .inputbox {
+        position: relative;
+        margin: 30px 0;
+        max-width: 310px;
+        border-bottom: 2px solid #000000;
+    }
+
+    .inputbox label {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+        color: #000000;
+        font-size: 1rem;
+        pointer-events: none;
+        transition: 0.5s ease-in-out;
+    }
+
+    .inputbox input {
+        width: 100%;
+        height: 60px;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        padding: 0 35px 0 5px;
+        color: #000000;
+    }
+
+    .inputbox input:focus ~ label,
+    .inputbox input:valid ~ label {
+        top: -5px;
+    }
+
+    /* Checkbox styling */
+    .terms {
+        margin: 20px 0;
+    }
+
+    /* Button styling */
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    button, .submit-button {
+        width: 100%;
+        height: 40px;
+        border-radius: 40px;
+        background-color: #fff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: 0.4s ease;
+        color: #333;
+    }
+
+    button:hover, .submit-button:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Link styling */
+    a.forget {
+        color: #000000;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    a.forget:hover {
+        color: #FFFFFF; /* Change to white on hover */
+    }
+
+    .password-strength {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.password-strength.weak {
+    color: red;
+}
+
+.password-strength.strong {
+    color: orange;
+}
+
+.password-strength.very-strong {
+    color: green;
+}
+
+.password-match {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.password-match.match {
+    color: green;
+}
+
+.password-match.no-match {
+    color: red;
+}
+</style>
+
+<script>
+    const termsCheckbox = document.getElementById('terms');
+    const submitButton = document.querySelector('.submit-button');
+
+    termsCheckbox.addEventListener('change', function() {
+        submitButton.disabled = !this.checked;
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+        // Add any client-side validation or logic here before form submission
+        console.log('Sign Up form submitted');
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password1');
+        const passwordStrength = document.getElementById('password-strength');
+
+        passwordInput.addEventListener('input', function() {
+            const strength = getPasswordStrength(passwordInput.value);
+            passwordStrength.textContent = strength.message;
+            passwordStrength.className = 'password-strength ' + strength.class;
+        });
+
+        function getPasswordStrength(password) {
+            let strength = {
+                message: 'Weak',
+                class: 'weak'
+            };
+
+            if (password.length >= 8) {
+                if (/[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                    strength.message = 'Very Strong';
+                    strength.class = 'very-strong';
+                } else if (/[A-Z]/.test(password) || /[a-z]/.test(password) || /\d/.test(password) || /[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                    strength.message = 'Strong';
+                    strength.class = 'strong';
+                }
+            }
+
+            return strength;
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password1');
+        const confirmPasswordInput = document.getElementById('password2');
+        const passwordStrength = document.getElementById('password-strength');
+        const passwordMatch = document.getElementById('password-match');
+
+        passwordInput.addEventListener('input', function() {
+            const strength = getPasswordStrength(passwordInput.value);
+            passwordStrength.textContent = strength.message;
+            passwordStrength.className = 'password-strength ' + strength.class;
+            checkPasswordMatch();
+        });
+
+        confirmPasswordInput.addEventListener('input', function() {
+            checkPasswordMatch();
+        });
+
+        function getPasswordStrength(password) {
+            let strength = {
+                message: 'Weak',
+                class: 'weak'
+            };
+
+            if (password.length >= 8) {
+                if (/[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                    strength.message = 'Very Strong';
+                    strength.class = 'very-strong';
+                } else if (/[A-Z]/.test(password) || /[a-z]/.test(password) || /\d/.test(password) || /[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                    strength.message = 'Strong';
+                    strength.class = 'strong';
+                }
+            }
+
+            return strength;
+        }
+
+        function checkPasswordMatch() {
+            if (passwordInput.value === confirmPasswordInput.value) {
+                passwordMatch.textContent = 'Passwords match';
+                passwordMatch.className = 'password-match match';
+            } else {
+                passwordMatch.textContent = 'Passwords do not match';
+                passwordMatch.className = 'password-match no-match';
+            }
+        }
+    });
+</script>
+
+
+{% endblock %}

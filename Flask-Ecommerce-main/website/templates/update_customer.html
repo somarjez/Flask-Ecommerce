@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Update Customer {% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <div class="profile-card">
+        <!-- Left Section for the Input Form -->
+        <div class="profile-header">
+            <div class="icon-box">👤</div>
+            <h2>Update Customer</h2>
+            <p class="subtitle">Modify customer account details</p>
+        </div>
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <form method="POST" class="update-form">
+            {{ form.hidden_tag() }}
+
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <div class="input-icon">👤</div>
+                    <div class="input-field">
+                        <label for="username">{{ form.username.label }}</label>
+                        {{ form.username(class="form-control", placeholder="Enter username") }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <div class="input-icon">📧</div>
+                    <div class="input-field">
+                        <label for="email">{{ form.email.label }}</label>
+                        {{ form.email(class="form-control", placeholder="Enter email") }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group verification-wrapper">
+                <div class="input-wrapper">
+                    <div class="input-icon">✅</div>
+                    <div class="input-field">
+                        <label class="verification-label">
+                            {{ form.is_verified(class="form-check-input") }}
+                            <span>{{ form.is_verified.label }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="button-group">
+                <button type="submit" class="btna btna-primary">{{ form.update_customer.label }}</button>
+                <a href="{{ url_for('admin.display_customers') }}" class="btna btna-primary" style="text-decoration: none;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+/* General styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+   
+}
+
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    background-image: url("{{ url_for('static', filename='images/juskopo.gif') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 60px;
+    text-decoration: none;
+}
+
+
+.profile-card {
+    background: linear-gradient(135deg, #4a9b74, #3b7c5a);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    color: white;
+    max-width: 500px;
+    margin: 5% 0 5% auto;
+    margin-right: 7%;
+}
+
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.profile-header .icon-box {
+    width: 70px;
+    height: 70px;
+    background: #487662;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+}
+
+
+.profile-header h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.subtitle {
+    opacity: 0.9;
+    font-size: 1.1rem;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+
+.input-wrapper:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+
+.input-icon {
+    width: 40px;
+    height: 40px;
+    background: #254336;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+
+.input-field {
+    flex: 1;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+.btna {
+    padding: 5px 24px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+}
+
+
+.btna-primary {
+    background: #ffd700;
+    color: #254336;
+}
+
+
+.btna-secondary {
+    background: #ffffff;
+    color: #254336;
+    border: 1px solid #254336;
+}
+
+
+.btna:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(189, 38, 38, 0.2);
+    background: #254336; /* Lighter gold on hover */
+    color: #f1f1eb;
+}
+
+
+</style>
+{% endblock %}
+
+
+

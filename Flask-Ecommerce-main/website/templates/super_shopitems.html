@@ -1,0 +1,268 @@
+
+{% block body %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/e24507d923.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+
+<style>
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+    :root {
+        --primary-bg: #719666;
+        --secondary-bg: #011b0f;
+        --accent-color: #f7f7f7;
+        --text-primary: #0d270a;
+        --text-secondary: #c6dace;
+        --btn-hover: #4a6138;
+        --btn-danger-hover: #204b15;
+        --btn-secondary-hover: #4a6138;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+
+    body {
+        background-color: var(--secondary-bg);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 0;
+    }
+
+
+    h3 {
+        font-size: 2rem;
+        font-family: 'Century Gothic';
+        margin-top: 100px;
+        text-align: center;
+        padding: 1rem 0;
+        color: white; /* Explicit color to ensure visibility */
+        font-weight: bold; /* Make the "Shop Items" heading bold */
+    }
+
+
+    .container {
+        font-family: 'Century Gothic';
+        padding: 1rem;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+
+    .table {
+        font-family: 'Century Gothic';
+        border-collapse: separate;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        background-color: var(--primary-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px var(--shadow);
+    }
+
+
+    .table th, .table td {
+        font-family: 'Century Gothic';
+        font-weight: bold; /* Bold text for all cells */
+        padding: 1rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    }
+
+
+    .table thead th {
+        font-family: 'Century Gothic';
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: var(--secondary-bg);
+        color: var(--accent-color);
+    }
+
+
+    .table tbody td {
+        font-family: 'Century Gothic';
+        background-color: var(--primary-bg);
+    }
+
+
+    .btnb {
+        font-family: 'Century Gothic';
+        border-radius: 30px;
+        padding: 0.75rem 1.25rem;
+        color: var(--accent-color);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+        font-weight: bold;
+        text-align: center;
+        margin: 0.5rem;
+    }
+
+
+    .btnb-primary {
+        font-family: 'Century Gothic';
+        background-color: var(--secondary-bg);
+        border-color: var(--secondary-bg);
+    }
+
+
+    .btnb-primary:hover {
+        font-family: 'Century Gothic';
+        background-color: var(--btn-hover);
+        transform: translateY(-2px);
+    }
+
+
+    .btnb-warning {
+        font-family: 'Century Gothic';
+        background-color: var(--btn-secondary-hover);
+        border-color: var(--btn-secondary-hover);
+    }
+
+
+    .btnb-warning:hover {
+        font-family: 'Century Gothic';
+        background-color: var(--btn-danger-hover);
+        transform: translateY(-2px);
+    }
+
+
+    .pagination .page-item .page-link {
+        color: var(--accent-color);
+        background-color: var(--secondary-bg);
+        border-color: var(--secondary-bg);
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        border-radius: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    .pagination .page-item.active .page-link {
+        background-color: #3a6f50;
+        border-color: #3a6f50;
+    }
+
+
+    .pagination .page-item:hover .page-link {
+        background-color: #2a5d47;
+    }
+
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+    #items {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 10px;
+        }
+
+</style>
+
+
+<div class="container">
+    <h3 class="fade-in">Shop Items</h3>
+    <li class="nav-item mx-2" id="items">
+        <a class="nav-link text-grey" href="/superadmin-page" style="color: white;"> Go Back to Dashboard <i class="fas fa-user-check"></i></a>
+    </li>
+    {% if items | length < 1 %}
+        <p class="fade-in" style="color: white; text-align: center;">No Shop Items</p>
+    {% else %}
+        <table class="table table-dark fade-in">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Previous Price</th>
+                    <th scope="col">Current Price</th>
+                    <th scope="col">In Stock</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Product Picture</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Flash Sale</th>
+                    <!-- <th scope="col">Action</th> -->
+                </tr>
+            </thead>
+
+
+            <tbody>
+                {% for item in items %}
+                    {% if item.archived == 0 %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.date_added }}</td>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.previous_price }}</td>
+                            <td>{{ item.current_price }}</td>
+                            <td class="{% if item.in_stock < 20 %}text-danger{% endif %}">
+                                {{ item.in_stock }}
+                                {% if item.in_stock < 20 %}
+                                    <i class="fas fa-exclamation-circle" style="color: red;"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ item.description }}</td>
+                            <td><img src="{{ item.product_picture }}" alt="{{ item.product_name }}" style="height: 50px; width: 50px; border-radius: 2px;"></td>
+                            <td>{{ item.category }}</td>
+                            <td>{{ item.flash_sale }}</td>
+
+<!-- 
+                            <td>
+                                <a href="/update-item/{{ item.id }}" class="btnb btnb-primary" style="text-decoration: none;">Update</a>
+                                <br>
+                                <a href="/delete-item/{{ item.id }}" class="btnb btnb-warning" style="text-decoration: none;">Delete</a>
+                                <br>
+                                <a href="/archive-item/{{ item.id }}" class="btnb btnb-warning" style="text-decoration: none;">Archive</a>
+                            </td>                             -->
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <!-- Pagination Controls -->
+        <div class="pagination justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.shop_items', page=pagination.prev_num) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                   
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                    </li>
+                   
+                    {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.shop_items', page=pagination.next_num) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+

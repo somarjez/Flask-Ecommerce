@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Shop Items{% endblock %}
+
+{% block body %}
+<style>
+    /* This section to create a new background for this specific html code*/
+    .custom-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        background: url('/static/images/bgaddshop.jpg') no-repeat center center;
+        background-size: cover;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        backdrop-filter: blur(5px);      
+        background: rgba(29, 96, 113, 0.25); /* 25% transparency */
+        border-radius: 35px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       
+    }
+
+    .shop-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .shop-header h3 {
+        font-size: 3rem;
+        font-family: serif;
+        color: #e6edea;
+    }
+
+    .shop-header p {
+        font-size: 1.3rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        color: #e9fff5; /* Change font color to white */
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ffffff; /* Change the line color to black */
+        font-weight: bold; /* Make the font bold */
+        font-family: 'Century Gothic', sans-serif;
+    }
+
+    .form-control, .form-select {
+        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+
+    .form-control:focus, .form-select:focus {
+        border-color: #254336;
+        box-shadow: 0 0 0 0.2rem rgba(222, 175, 4, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #1d6071;
+        color: white;
+        padding: 7px 80px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .btn-primary:hover {
+        background-color: #429e7d; /* Hover effect color */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0); /* Return to original position when clicked */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow */
+    }
+
+    .image-preview {
+        display: none;
+        margin-top: 20px;
+        max-height: 15rem;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            grid-template-columns: 1fr;
+        }
+
+        .furniture-shop-form {
+            padding: 20px;
+        }
+    }
+
+    .shop-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: #b4846c;
+        margin: 1rem auto;
+    }
+    .icon-box {
+        background: rgba(243, 233, 226, 0.5); /* 25% transparency */
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 50px;
+        box-shadow: 0 4px 15px rgba(180, 132, 108, 0.2);
+    }
+
+    .input-wrapper {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+    }
+
+    .input-field {
+        margin-left: 40px;
+    }
+
+    .input-wrapper label {
+        color: #ffffff; /* Change label color to dark */
+        display: block;
+        margin-bottom: 8px;
+        font-family: 'Century Gothic';
+        font-size: 20px;
+       
+    }
+
+    .flash-sale-toggle {
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+    }
+
+
+    .flash-sale-toggle label {
+        margin-left: 10px;
+        font-weight: bold;
+        color: #edeeee;
+    }
+</style>
+
+
+<div class="custom-bg fade-in">
+    <div class="container fade-in">
+        <div class="furniture-shop-form">
+            <div class="shop-header">
+                <div class="icon-box">🪑</div>
+                <h3>Add Shop Items</h3>
+                <p>Create new product listings</p>
+            </div>
+            <form method="POST" enctype="multipart/form-data" id="furnitureForm">
+                {{ form.hidden_tag() }}
+
+                <div class="form-container">
+                    <div>
+                        <h4 class="section-title">Basic Information</h4>
+                        <div class="input-wrapper">
+                            <div class="input-icon">📦</div>
+                            <div class="input-field">
+                                <label for="product_name">{{ form.product_name.label }}</label>
+                                {{ form.product_name(class="form-control", placeholder="Enter product name") }}
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <div class="input-icon">📝</div>
+                            <div class="input-field">
+                                <label for="description">{{ form.description.label }}</label>
+                                {{ form.description(class="form-control", placeholder="Enter product description") }}
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <div class="input-icon">📑</div>
+                            <div class="input-field">
+                                <label for="category">{{ form.category.label }}</label>
+                                {{ form.category(class="form-select") }}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="section-title">Pricing & Availability</h4>
+                        <div class="input-wrapper">
+                            <div class="input-icon">💰</div>
+                            <div class="input-field">
+                                <label for="previous_price">{{ form.previous_price.label }}</label>
+                                {{ form.previous_price(class="form-control", placeholder="Enter previous price") }}
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <div class="input-icon">🏷️</div>
+                            <div class="input-field">
+                                <label for="current_price">{{ form.current_price.label }}</label>
+                                {{ form.current_price(class="form-control", placeholder="Enter current price") }}
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <div class="input-icon">📦</div>
+                            <div class="input-field">
+                                <label for="in_stock">{{ form.in_stock.label }}</label>
+                                {{ form.in_stock(class="form-control", placeholder="Enter stock quantity") }}
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <div class="input-icon">🖼️</div>
+                            <div class="input-field">
+                                <label for="product_picture">{{ form.product_picture.label }}</label>
+                                {{ form.product_picture(class="form-control", id="productPicture") }}
+                                <img id="imagePreview" class="image-preview" src="#" alt="Image Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash Sale Field -->
+                <div class="flash-sale-toggle">
+                    {{ form.flash_sale(class="form-check-input") }}
+                    <label for="flash_sale">{{ form.flash_sale.label }}</label>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">{{ form.add_product.label }}</button>
+                    <a href="{{ url_for('admin.shop_items') }}" class="btn btn-primary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Wait for the DOM to fully load before executing the script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the file input element and the image preview element
+        const imageInput = document.getElementById('productPicture');
+        const imagePreview = document.getElementById('imagePreview');
+
+        // Add an event listener to the file input element for when the value changes
+        imageInput.addEventListener('change', function(event) {
+            // Get the selected file from the input element
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            // Define the onload event for the FileReader
+            reader.onload = function(e) {
+                // Set the src attribute of the image preview element to the file's data URL
+                imagePreview.src = e.target.result;
+                // Display the image preview element
+                imagePreview.style.display = 'block';
+            };
+
+            // Read the selected file as a data URL
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

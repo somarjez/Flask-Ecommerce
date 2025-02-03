@@ -1,0 +1,429 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Seller Dashboard{% endblock %}
+
+
+{% block body %}
+<head>
+    <title>Seller Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        /* Full viewport height layout */
+
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #142f23;
+            color: #fff;
+            padding: 15px;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin: 15px 0;
+        }
+
+        .sidebar-nav a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar-nav a:hover {
+            background-color:  rgba(56, 189, 248, 0.1);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            width: calc(100% - 250px);
+            font-size: 1rem; /* Reduced font size */
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .stats-section {
+            margin-bottom: 20px;
+        }
+
+        .data-section {
+            display: flex;
+            gap: 20px;
+            height: calc(100% - 250px); /* Adjust based on stats section height */
+        }
+
+        .table-container {
+            flex: 2;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container {
+            flex: 1;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .table-scroll {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                overflow-x: auto;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .data-section {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .table-container, .chart-container {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    {% set chart_data = [] %}
+    {% for product, quantity, revenue, date in sales_data %}
+        {% set _ = chart_data.append([product, quantity, revenue, date]) %}
+    {% endfor %}
+   
+    <div class="dashboard-container fade-in">
+        <!-- Left Sidebar -->
+
+        <nav class="sidebar">
+            <ul class="sidebar-nav">
+                <h1 style="text-align: center; font-family: Century Gothic; font-weight: bold; font-size: 18px; margin-top: 12px;">Seller Dashboard</h1>
+                <li><a href="/customers">Customers</a></li>
+                <li><a href="/shop-items">Shop Items</a></li>
+                <li><a href="/add-shop-items">Add Shop Items</a></li>
+                <li><a href="/view-orders">Order Tracking</a></li>
+                <li><a href="/archived-items">Archived Items</a></li>
+                <li><a href="/reports/basic-sales">Basic Sales Reports</a></li>
+                <li><a href="/reports/revenue">Revenue Reports</a></li>
+            </ul>
+        </nav>
+   
+        <div class="main-content fade-in">
+            <div class="content-wrapper">
+                <!-- Flash Messages -->
+                <div class="messages mb-6">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                                    <span class="block sm:inline">{{ message }}</span>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+
+                <!-- Search Input -->
+                <div class="mb-6">
+                    <input type="text" id="searchInput" placeholder="Search for products..."
+                           class="w-full md:w-1/2 mx-auto block px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- Conditional Rendering -->
+                {% if sales_data|length == 0 %}
+                <div class="welcome-message" style="text-align: center;">
+                <h1 class="text-5xl font-bold">Welcome to the Seller Dashboard</h1>
+                <p class="text-gray-600 mt-4">No sales data available yet. Start selling to see your stats and reports here!</p>
+                </div>
+                {% else %}
+
+                <!-- Stats Cards -->
+                <div class="stats-section grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+                    <!-- Total Revenue -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium">Total Revenue</h3>
+                        <p class="text-2xl font-bold text-gray-800">
+                            PHP {{ "%.2f"|format(sales_data|sum(attribute='2')) }}
+                        </p>
+                    </div>
+
+
+                    <!-- Total Items Sold -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium">Total Items Sold</h3>
+                        <p class="text-2xl font-bold text-gray-800">
+                            {{ sales_data|sum(attribute='1') }}
+                        </p>
+                    </div>
+
+
+                    <!-- Average Revenue per Sale -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium">Average Revenue per Sale</h3>
+                        <p class="text-2xl font-bold text-gray-800">
+                            PHP {{ "%.2f"|format(sales_data|sum(attribute='2') / sales_data|length) }}
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- Data Section -->
+                <div class="data-section">
+                    <!-- Data Table -->
+                    <div class="table-container">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-4">Detailed Sales Data</h3>
+                        </div>
+                        <div class="table-scroll">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Sold</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Revenue</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salesTableBody" class="bg-white divide-y divide-gray-200">
+                                    <!-- Rows will be dynamically populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex justify-between items-center mt-4 px-4 pb-4">
+                            <button id="prevButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" disabled>Previous</button>
+                            <button id="nextButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
+                        </div>
+                    </div>
+               
+                    <!-- Chart Section -->
+                    <div class="chart-container">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-4">Sales Overview</h3>
+                            <div class="w-full h-full">
+                                <canvas id="salesChart" data-sales='{{ chart_data|tojson }}'></canvas>
+                            </div>
+                        </div>
+                        {% endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>document.addEventListener('DOMContentLoaded', function () {
+        const salesData = JSON.parse(document.getElementById('salesChart').dataset.sales);
+        const rowsPerPage = 2; // Number of rows per page
+        let currentPage = 1;
+   
+        function renderTable(page) {
+            const tableBody = document.getElementById('salesTableBody');
+            tableBody.innerHTML = ''; // Clear existing rows
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedData = salesData.slice(start, end);
+   
+            // Populate the table with paginated data
+            paginatedData.forEach(([product, quantity, revenue, date]) => {
+                const row = `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${quantity}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PHP ${revenue.toFixed(2)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${date}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+   
+            // Manage button states
+            document.getElementById('prevButton').disabled = page === 1;
+            document.getElementById('nextButton').disabled = end >= salesData.length;
+        }
+   
+        // Event listeners for buttons
+        document.getElementById('prevButton').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentPage);
+            }
+        });
+   
+        document.getElementById('nextButton').addEventListener('click', () => {
+            if (currentPage * rowsPerPage < salesData.length) {
+                currentPage++;
+                renderTable(currentPage);
+            }
+        });
+   
+        // Initial table rendering
+        renderTable(currentPage);
+    });
+        // Initialize chart and store it in a variable for later access
+        let salesChart;
+        const salesData = JSON.parse(document.getElementById('salesChart').dataset.sales);
+
+
+        function initializeChart(filteredData = salesData) {
+            const canvas = document.getElementById('salesChart');
+            const ctx = canvas.getContext('2d');
+           
+            // Process the data for the chart
+            const products = filteredData.map(item => item[0]);
+            const quantities = filteredData.map(item => item[1]);
+            const revenues = filteredData.map(item => item[2]);
+
+
+            // If a chart already exists, destroy it before creating a new one
+            if (salesChart) {
+                salesChart.destroy();
+            }
+
+
+            salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: products,
+                    datasets: [
+                        {
+                            label: 'Quantity Sold',
+                            data: quantities,
+                            backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Revenue (PHP)',
+                            data: revenues,
+                            backgroundColor: 'rgba(16, 185, 129, 0.5)',
+                            borderColor: 'rgb(16, 185, 129)',
+                            borderWidth: 1,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Quantity Sold'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Revenue (PHP)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // Search functionality for both table and chart
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('tbody tr');
+           
+            // Filter table rows
+            tableRows.forEach(row => {
+                const productName = row.cells[0].textContent.toLowerCase();
+                row.style.display = productName.includes(searchTerm) ? '' : 'none';
+            });
+
+
+            // Filter chart data
+            const filteredData = salesData.filter(item =>
+                item[0].toLowerCase().includes(searchTerm)
+            );
+
+
+            // Reinitialize chart with filtered data
+            initializeChart(filteredData);
+        });
+
+
+        // Initialize the chart when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChart();
+        });
+    </script>
+</body>
+{% endblock %}
+

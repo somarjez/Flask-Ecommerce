@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport settings for responsive design -->
+    <title>404</title> <!-- Title of the page -->
+    <style>
+        /* Style for the body and html elements */
+        body, html {
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: hidden; /* Hide overflow content */
+            background-color: white; /* White background color */
+        }
+        /* Style for the full-screen image */
+        .full-screen-image {
+            position: absolute; /* Absolute positioning */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            object-fit: cover; /* Cover the entire area */
+        }
+        /* Style for the back link */
+        .back-link {
+            position: absolute; /* Absolute positioning */
+            bottom: 20px; /* 20px from the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Center horizontally */
+            font-size: 1.2em; /* Font size */
+        }
+    </style>
+</head>
+<body>
+    <!-- Full-screen background image -->
+    <img src="../static/images/1.jpg" alt="" class="full-screen-image">
+    <!-- Centered back link button -->
+    <div style="position: absolute; top: 90%; left: 49%; transform: translate(-50%, -50%); text-align: center;">
+        <a href="/" style="background-color: #242c29; color: white; padding: 15px 30px; font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 15px; border: none; border-radius: 25px; cursor: pointer; text-decoration: none;">
+            Go Back to Homepage
+        </a>
+    </div>
+</body>
+</html>

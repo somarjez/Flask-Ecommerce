@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+
+{% block title %} Orders {% endblock %}
+
+{% block body %}
+<div class="container my-5 fade-in">
+    <div class="row fade-in">
+        {% if orders %}
+        <h1 class="text-center mb-5 fade-in" style="color: rgb(241, 241, 240); font-family: 'Century Gothic'; font-weight: bold;">Orders</h1>
+
+        <!-- Filter Buttons -->
+        <div class="text-center mb-4">
+            <div class="btn-group" role="group" aria-label="Order Status Filters">
+                <button class="btn btn-primary mx-1 filter-btn" data-filter="all">All</button>
+                <button class="btn btn-info mx-1 filter-btn" data-filter="Accepted">Accepted</button>
+                <button class="btn btn-warning mx-1 filter-btn" data-filter="Out for delivery">Out for Delivery</button>
+                <button class="btn btn-success mx-1 filter-btn" data-filter="Delivered">Delivered</button>
+                <button class="btn btn-primary mx-1 filter-btn" data-filter="Completed">Completed</button>
+                <button class="btn btn-primary mx-1 filter-btn" data-filter="Pending">Pending</button>
+                <button class="btn btn-danger mx-1 filter-btn" data-filter="Canceled">Canceled</button>
+            </div>
+        </div>
+
+        <div class="col-sm-13">
+            <div id="order-list">
+                {% for item in orders %}
+                <div class="order-item" data-status="{{ item.status }}">
+                    <div class="row">
+                        <div class="col-sm-3 text-center align-self-center">
+                            <img src="{{ item.product.product_picture }}" alt="" class="img-fluid img-thumbnail shadow-sm" height="150px" width="150px">
+                        </div>
+                        <div class="col-sm-7">
+                            <h3>{{ item.product.product_name }}</h3>
+                            <p class="mb-2 text-muted small">Quantity: {{ item.quantity }}</p>
+                            <p class="mb-2 text-muted small">Price: PHP {{ item.price }}</p>
+                            <div class="col-sm-4">
+                                <p>Order Status: {{ item.status }}</p>
+                                <!-- Progress bar logic -->
+                                {% if item.status == 'Pending' %}
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {% elif item.status == 'Accepted' %}
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {% elif item.status == 'Out for delivery' %}
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {% elif item.status == 'Delivered' %}
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {% elif item.status == 'Completed' %}
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {% elif item.status == 'Canceled' %}
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Additional Buttons -->
+                            {% if item.status == 'Completed' %}
+                            <form action="{{ url_for('admin.update_status', order_id=item.id) }}" method="POST" class="mt-2">
+                                <button type="submit" class="btn btn-success">Mark as Completed</button>
+                            </form>
+                            {% endif %}
+                            {% if item.status == 'Canceled' %}
+                            <form action="{{ url_for('admin.delete_order', order_id=item.id) }}" method="POST" class="mt-2">
+                                <button type="submit" class="btn btn-danger">Delete Order</button>
+                            </form>
+                            {% endif %}
+                            {% if item.status == 'Pending' %}
+                            <form action="{{ url_for('admin.cancel_order', order_id=item.id) }}" method="POST" class="mt-2">
+                                <button type="submit" class="btn btn-danger">Cancel Order</button>
+                            </form>
+                            {% endif %}
+                            {% if item.status == 'Delivered' %}
+                            <form action="{{ url_for('admin.delete_order', order_id=item.id) }}" method="POST" class="mt-2">
+                                <a href="{{ url_for('admin.submit_review', product_id=item.product.id) }}" class="btn btn-primary mt-3">Submit Review</a>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div id="no-orders-message" class="text-center py-4" style="display: none;">
+                    <h4 class="text-muted">No orders found in this category</h4>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <h1 class="text-center mb-5" style="color: white; font-family: Century Gothic; font-weight: bold;">You have no Orders</h1>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- JavaScript for filtering -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.filter-btn');
+        const orders = document.querySelectorAll('.order-item');
+        const noOrdersMessage = document.getElementById('no-orders-message');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                let visibleOrders = 0;
+
+                orders.forEach(order => {
+                    if (filter === 'all' || order.getAttribute('data-status') === filter) {
+                        order.style.display = '';
+                        visibleOrders++;
+                    } else {
+                        order.style.display = 'none';
+                    }
+                });
+
+                // Show/hide the "no orders" message
+                noOrdersMessage.style.display = visibleOrders === 0 ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+<style>
+    /* Add Century Gothic font to all elements */
+   
+    .btn-group .btn {
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+    }
+
+
+    /* Custom colors for each button type */
+    .btn-group .btn-primary {
+        background-color: #8BA888;
+    }
+   
+    .btn-group .btn-info {
+        background-color: #A8C69F;
+    }
+   
+    .btn-group .btn-warning {
+        background-color: #AFC9A6;
+    }
+   
+    .btn-group .btn-success {
+        background-color: #77916C;
+    }
+   
+    .btn-group .btn-danger {
+        background-color: #D4A373;
+    }
+
+
+    .btn-group .btn:hover {
+        background-color: #719666;
+        color: #000;
+        opacity: 0.9;
+    }
+
+
+    /* Update order item styling */
+    .order-item {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #719666;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'Century Gothic';
+    }
+
+
+    .order-item:last-child {
+        margin-bottom: 0;
+    }
+
+
+    /* Style for progress bars */
+    .progress {
+        height: 10px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+
+    .progress-bar {
+        border-radius: 5px;
+        background-color: #8BA888;
+    }
+
+
+    /* Additional button styles */
+    .btn {
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+
+    .btn-primary {
+        background-color: #8BA888;
+    }
+
+
+    .btn-success {
+        background-color: #77916C;
+    }
+
+
+    .btn-danger {
+        background-color: #D4A373;
+    }
+
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+
+
+    /* Make text more visible on dark background */
+    .text-muted {
+        color: #b4c5ab !important;
+        font-family: 'Century Gothic';
+    }
+
+
+    /* Progress bar colors */
+    .progress-bar.bg-info {
+        background-color: #13270b !important;
+    }
+
+
+    .progress-bar.bg-warning {
+        background-color: #141414 !important;
+    }
+
+
+    .progress-bar.bg-success {
+        background-color: #13270b !important;
+    }
+
+
+    .progress-bar.bg-danger {
+        background-color: #13270b !important;
+    }
+
+
+    /* Image styling */
+    .img-thumbnail {
+        border: none;
+        background-color: #719666;
+        padding: 0.5rem;
+    }
+    /* Text colors */
+.order-item h3 {
+    color: #0d270a;
+    font-weight: bold;
+    font-family: 'Century Gothic';
+}
+
+
+.order-item p {
+    color: #011b0f;
+    font-family: 'Century Gothic';
+}
+
+
+.order-item .text-muted {
+    color: #19350f !important;
+    font-family: 'Century Gothic';  
+}
+
+
+.order-item .status-text {
+    color: #21550b; 
+    font-family: 'Century Gothic'; 
+}
+
+
+.order-item .price-text {
+    color: #413b35;  
+    font-family: 'Century Gothic';
+}
+</style>
+
+
+{% endblock %}
+

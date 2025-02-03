@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQs{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+<style>
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: var(--primary-bg);
+        border-radius: 10px;
+        box-shadow: 0 4px 15px var(--shadow);
+        color: white;
+    }
+
+    .faq-container h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: var(--accent-color);
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .faq-container h2 {
+        margin-top: 1.5rem;
+        color: var(--accent-color);
+        font-size: 1.75rem;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .faq-container h2::after {
+        content: '\f078'; /* FontAwesome down arrow */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 0;
+        transition: transform 0.3s ease;
+    }
+
+    .faq-container h2.active::after {
+        transform: rotate(180deg);
+    }
+
+    .faq-container p {
+        margin-bottom: 1rem;
+        font-size: 1.1em;
+        line-height: 1.6;
+        display: none;
+    }
+
+    .faq-container a {
+        color: #5A8A79;
+        text-decoration: underline;
+    }
+
+    .faq-container .faq-item {
+        margin-bottom: 1.5rem;
+    }
+</style>
+
+<div class="faq-container">
+    <h1>Frequently Asked Questions (FAQs)</h1>
+
+    <div class="faq-item">
+        <h2>1. What is Findify?</h2>
+        <p>Findify is your premier destination for discovering beautiful and functional furniture pieces tailored to elevate your living space. We offer a curated selection of timeless and modern designs that bring comfort, style, and inspiration into your home.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>2. How can I place an order?</h2>
+        <p>Placing an order is simple! Browse our collection, add your desired items to the cart, and proceed to checkout. Follow the on-screen instructions to complete your purchase.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>3. What payment methods do you accept?</h2>
+        <p>We accept various payment methods, including credit/debit cards, PayPal, and other secure payment options. You can choose your preferred payment method at checkout.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>4. How can I track my order?</h2>
+        <p>Once your order is shipped, you can use 'Orders' section of your account to monitor the status of your delivery on our website or the carrier's website.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>5. What is your return policy?</h2>
+        <p>We offer a hassle-free return policy. If you are not satisfied with your purchase, you can return it within 30 days of delivery for a full refund or exchange.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>6. How can I contact customer support?</h2>
+        <p>If you have any questions or need assistance, feel free to reach out to our customer support team at <a href="mailto:afindify@gmail.com">afindify@gmail.com</a>. We are here to help!</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>7. Do you offer international shipping?</h2>
+        <p>Yes, we offer international shipping to select countries. Shipping fees and delivery times may vary based on your location.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>8. How can I stay updated with your latest products and offers?</h2>
+        <p>You can subscribe to our newsletter to receive updates on our latest products, special offers, and promotions. Simply enter your email address in the subscription box at the bottom of our website.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>9. Are your products environmentally friendly?</h2>
+        <p>We are committed to sustainability and offer a range of environmentally friendly products. Our furniture is crafted using sustainable materials and practices to minimize our environmental impact.</p>
+    </div>
+
+    <div class="faq-item">
+        <h2>10. Can I customize my furniture?</h2>
+        <p>No, we offer no customization options for select furniture pieces. You will get the products as they are. You can choose from various finishes, fabrics to create a piece that perfectly fits your style and needs. Please contact our customer support team for more information.</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqHeaders = document.querySelectorAll('.faq-container h2');
+        faqHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

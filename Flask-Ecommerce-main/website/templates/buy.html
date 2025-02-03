@@ -1,0 +1,20 @@
+<!-- FILE: templates/buy.html -->
+{% extends "base.html" %}
+{% block title %} Buy Now {% endblock %}
+{% block content %}
+  <h2>Buy Now</h2>
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.quantity.label }}<br>
+      {{ form.quantity(size=32) }}
+    </div>
+    <div>
+      {{ form.payment_method.label }}<br>
+      {{ form.payment_method() }}
+    </div>
+    <div>
+      {{ form.submit() }}
+    </div>
+  </form>
+{% endblock %}

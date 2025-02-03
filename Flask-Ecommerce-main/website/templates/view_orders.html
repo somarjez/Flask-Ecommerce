@@ -1,0 +1,289 @@
+
+{% extends 'base.html' %}
+
+
+{% block title %} View Orders {% endblock %}
+
+
+{% block body %}
+
+
+<style>
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+:root {
+    --primary-bg: #719666;
+    --secondary-bg: #011b0f;
+    --accent-color: #f7fdff;
+    --text-primary: #0d270a;
+    --text-secondary: #c6dace;
+    --btn-hover: #4a6138;
+    --btn-danger-hover: #011b0f;
+    --btn-secondary-hover: #4a6138;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+
+body {
+    background-color: var(--secondary-bg);
+    color: var(--text-primary);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem; /* Slightly increased font size */
+}
+
+
+h3 {
+    font-family: 'Century Gothic';
+    font-size: 1.75rem; /* Slightly increased font size */
+    margin: 0;
+    text-align: center; /* Centered text */
+    padding: 0.75rem 0; /* Slightly increased padding */
+    color: #e2e8f0; /* Separated color for the text */
+    font-weight: bold; /* Make the text bold */
+}
+
+
+.container {
+    font-family: 'Century Gothic';
+    padding: 0.75rem; /* Slightly increased padding */
+    width: 100%;
+    max-width: 100%; /* Adjusted width */
+    margin-top: 100px;
+}
+
+
+.table {
+    font-family: 'Century Gothic';
+    border-collapse: separate;
+    width: 100%;
+    margin-bottom: 1.25rem; /* Slightly increased margin */
+    color: var(--text-primary);
+    background-color: var(--primary-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--shadow);
+    font-size: 0.875rem; /* Slightly increased font size */
+    font-weight: bold; /* Apply bold to table text */
+}
+
+
+.table th, .table td {
+    font-family: 'Century Gothic';
+    padding: 0.75rem; /* Slightly increased padding */
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+}
+
+
+.table thead th {
+    font-family: 'Century Gothic';
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: var(--secondary-bg);
+    color: var(--accent-color);
+}
+
+
+.table tbody td {
+    font-family: 'Century Gothic';
+    background-color: var(--primary-bg);
+}
+
+
+.btnb {
+    font-family: 'Century Gothic';
+    border-radius: 20px;
+    padding: 0.75rem 1.25rem; /* Slightly increased padding */
+    color: var(--accent-color);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    margin: 0.5rem; /* Slightly increased margin */
+    white-space: nowrap; /* Prevents wrapping */
+    font-size: 0.875rem; /* Slightly increased font size */
+}
+
+
+.btnb-primary {
+    font-family: 'Century Gothic';
+    background-color: var(--secondary-bg);
+    border-color: var(--secondary-bg);
+    text-decoration: none; /* Remove underline */
+}
+
+
+.btnb-primary:hover {
+    font-family: 'Century Gothic';
+    background-color: var(--btn-hover);
+    transform: translateY(-2px);
+}
+
+
+.btnb-warning {
+    font-family: 'Century Gothic';
+    background-color: var(--btn-secondary-hover);
+    border-color: var(--btn-secondary-hover);
+}
+
+
+.btnb-warning:hover {
+    font-family: 'Century Gothic';
+    background-color: var(--btn-danger-hover);
+    transform: translateY(-2px);
+}
+
+
+.pagination .page-item .page-link {
+    color: var(--accent-color);
+    background-color: var(--secondary-bg);
+    border-color: var(--secondary-bg);
+    padding: 0.5rem 0.75rem; /* Slightly increased padding */
+    font-weight: bold;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    font-size: 0.875rem; /* Slightly increased font size */
+}
+
+
+.pagination .page-item.active .page-link {
+    background-color: #3a6f50;
+    border-color: #3a6f50;
+}
+
+
+.pagination .page-item:hover .page-link {
+    background-color: #2a5d47;
+}
+
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+}
+
+
+.profile-img img {
+    width: 50px; /* Slightly increased size */
+    height: 50px; /* Slightly increased size */
+    border-radius: 50%;
+}
+
+
+.profile-initial {
+    display: inline-block;
+    width: 50px; /* Slightly increased size */
+    height: 50px; /* Slightly increased size */
+    border-radius: 50%;
+    background-color: var(--text-secondary);
+    color: var(--primary-bg);
+    text-align: center;
+    line-height: 50px; /* Adjusted line height */
+    font-size: 1.5rem; /* Slightly increased font size */
+    font-weight: bold;
+}
+
+
+</style>
+
+
+
+
+
+<div class="container">
+    <h3 style="color: #e2e8f0; font-family: 'Century Gothic'; font-size: 1.75rem; text-align: center; padding: 0.75rem 0; font-weight: bold;">View Orders</h3>
+    <!-- Add a form to filter by status with custom CSS classes -->
+<form method="GET" action="{{ url_for('admin.order_view') }}" class="mb-3 search-form">
+    <select name="status" class="form-select form-control-sleek">
+        <option value="">-- Select Status --</option>
+        <option value="Pending" {% if request.args.get('status') == 'Pending' %}selected{% endif %}>Pending</option>
+        <option value="Accepted" {% if request.args.get('status') == 'Accepted' %}selected{% endif %}>Accepted</option>
+        <option value="Out for delivery" {% if request.args.get('status') == 'Out for delivery' %}selected{% endif %}>Out for delivery</option>
+        <option value="Delivered" {% if request.args.get('status') == 'Delivered' %}selected{% endif %}>Delivered</option>
+        <option value="Canceled" {% if request.args.get('status') == 'Canceled' %}selected{% endif %}>Canceled</option>
+    </select>
+    <button type="submit" class="btnb btnb-primary">Filter</button>
+</form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Payment ID</th>
+                <th scope="col">Profile</th>
+                <th scope="col">UserName</th>
+                <th scope="col">Customer Email</th>
+                <th scope="col">Customer Address</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Picture</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.payment_id }}</td>
+                <td>
+                    {% if order.customer.profile_picture %}
+                    <div class="profile-img">
+                        <img src="{{ url_for('auth.get_image', filename=order.customer.profile_picture) }}" alt="Profile Picture">
+                    </div>
+                    {% else %}
+                    <div class="profile-img">
+                        <span class="profile-initial">{{ order.customer.username[0]|upper }}</span>
+                    </div>
+                    {% endif %}
+                </td>
+                <td>{{ order.customer.username }}</td>
+                <td>{{ order.customer.email }}</td>
+                <td>{{ order.customer.address }}</td>
+                <td>{{ order.product.product_name }}</td>
+                <td>{{ order.price }}</td>
+                <td>{{ order.quantity }}</td>
+                <td><img src="{{ order.product.product_picture }}" alt="" style="height: 50px; width: 50px; border-radius: 2px;"></td>
+                <td>{{ order.status }}</td>
+                <td>
+                    <a href="/update-order/{{ order.id }}" class="btnb btnb-primary">Update Status</a>
+                </td>                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!-- Pagination Controls -->
+    <div class="pagination justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.order_view', page=pagination.prev_num) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                </li>
+                {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.order_view', page=pagination.next_num) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,326 @@
+
+{% block body %}
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/e24507d923.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+<style>
+    /* Modernized and Sleeker Design with Subdued Green Palette */
+    :root {
+        --primary-bg: #719666;
+        --secondary-bg: #011b0f;
+        --accent-color: #f7fdff;
+        --text-primary: #0d270a;
+        --text-secondary: #ffffff;
+        --btn-hover: #4a6138;
+        --btn-danger-hover: #204b15;
+        --btn-secondary-hover: #4a6138;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+
+
+
+    body {
+        background-color: var(--secondary-bg);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 0;
+    }
+
+
+    h1 {
+        font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        font-size: 2.5rem;
+        margin: 0;
+        text-align: center;
+        padding: 1.5rem 0;
+        color: var(--accent-color);
+        font-weight: bold;
+    }
+
+
+    .container {
+        padding: 2rem;
+        width: 90%;
+        max-width: 1200px; /* Added max-width */
+        margin: 4rem auto; /* Centered the container and added top margin */
+        background-color: var(--primary-bg);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px var(--shadow);
+    }
+    .table {
+        font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        border-collapse: separate;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        background-color: var(--primary-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px var(--shadow);
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+
+    .table th, .table td {
+        font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        padding: 1rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+
+    .table thead th {
+        font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: var(--secondary-bg);
+        color: var(--accent-color);
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+
+    .table tbody td {
+        font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        background-color: var(--primary-bg);
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+
+    .btnb {
+        border-radius: 30px;
+        padding: 0.8rem 1.5rem;
+        color: var(--accent-color);
+        transition: transform 0.2s ease, background-color 0.3s ease;
+        display: inline-block;
+        font-weight: bold;
+        text-align: center;
+        margin: 0.5rem;
+        cursor: pointer;
+        border: none;
+        font-size: 14px;
+    }
+
+
+    .btnb:hover {
+        transform: translateY(-2px);
+    }
+
+
+    .btnb-success {
+        background-color: #032411;
+        border: none;
+    }
+    .btnb-success:hover {
+        background-color: var(--btn-hover);
+    }
+
+
+
+
+    .btnb-danger {
+        background-color: #350303;
+        border: none;
+    }
+    .btnb-danger:hover {
+        background-color: var(--btn-danger-hover);
+    }
+
+
+
+
+    .btnb-secondary {
+        background-color: #466b2d;
+        border: none;
+    }
+    .btnb-secondary:hover {
+        background-color: var(--btn-secondary-hover);
+    }
+
+
+
+
+    .pagination .page-item .page-link {
+        color: var(--accent-color);
+        background-color: var(--secondary-bg);
+        border-color: var(--secondary-bg);
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        border-radius: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    .pagination .page-item.active .page-link {
+        background-color: #3a6f50;
+        border-color: #3a6f50;
+    }
+
+
+    .pagination .page-item:hover .page-link {
+        background-color: #2a5d47;
+    }
+
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+
+    .profile-img img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+
+    .profile-initial {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--text-secondary);
+        color: var(--primary-bg);
+        text-align: center;
+        line-height: 50px;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+
+    .fade-in {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    #items {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 10px;
+        }
+</style>
+
+
+<div style="padding: 2rem; width: 90%; max-width: 1200px; margin: 4rem auto;">
+    <h1>Manage Seller Requests</h1>
+    <li class="nav-item mx-2" id="items">
+        <a class="nav-link text-grey" href="/superadmin-page" style="color: white;"> Go Back to Dashboard <i class="fas fa-user-check"></i></a>
+    </li>
+    {% if customers | length < 1 %}
+        <h3 style="color: var(--accent-color); text-align: center;">No Seller Requests Available</h3>
+    {% else %}
+        <table class="table table-dark fade-in">
+            <thead>
+                <tr>
+                    <th scope="col">Customer ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">BIR Number</th>
+                    <th scope="col">Verified?</th>
+                    <th scope="col">Valid ID</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.username }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.bir_number }}</td>
+                    <td>
+                        {% if customer.is_verified == 1 %}
+                            <span style="color: rgb(178, 178, 226);">Seller is Verified</span>
+                        {% else %}
+                            <span style="color: rgb(54, 4, 4);">Not Verified</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if customer.valid_id %}
+                            <a href="{{ customer.valid_id }}" target="_blank">
+                                <img src="{{ customer.valid_id }}" alt="Valid ID" style="height: 50px; width: 50px; border-radius: 2px;">
+                            </a>
+                        {% else %}
+                            No ID Provided
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="{{ url_for('admin.approve_seller', customer_id=customer.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btnb btnb-success">Approve</button>
+                        </form>
+                        <form action="{{ url_for('admin.reject_seller', customer_id=customer.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btnb btnb-danger">Reject</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin.superadmin_page') }}" class="btnb btnb-secondary">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if pagination.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('admin.manage_seller_requests', page=pagination.prev_num) }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+
+                    <!-- Display current page and total pages -->
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                    </li>
+
+
+                    {% if pagination.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('admin.manage_seller_requests', page=pagination.next_num) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

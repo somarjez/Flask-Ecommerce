@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Wishlist {% endblock %}
+
+
+{% block body %}
+<div class="container my-5 fade-in">
+    <h1 class="text-center mb-5" style="color: white; font-family: Poppins; font-weight: bold;">Your Wishlist</h1>
+
+
+    <div class="row">
+        {% if wishlist %}
+        <div class="col-sm-8">
+            <!-- Big box container for all products -->
+            <div class="card p-3" style="background: linear-gradient(135deg, #284326, #6eaa6b); border-radius: 10px;">
+                {% for item in wishlist %}
+                <div class="card mb-4" style="background: rgba(255, 255, 255, 0.5);">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-center align-self-center">
+                                <!-- Make the image clickable and redirect to search results -->
+                                <a href="{{ url_for('views.search') }}?search={{ item.product.product_name|urlencode }}">
+                                    <img src="{{ item.product.product_picture }}"
+                                         alt="{{ item.product.product_name }}"
+                                         class="img-fluid img-thumbnail shadow-sm"
+                                         height="150px"
+                                         width="150px">
+                                </a>
+                            </div>
+                            <div class="col-sm-9">
+                                <div>
+                                    <h3 style="font-family: 'Century Gothic', sans-serif; font-weight: bold;">{{ item.product.product_name }}</h3>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="mb-0" style="color: rgb(4, 55, 4);"><span><strong>PHP {{ item.product.current_price }}</strong></span></p>
+                                        <div class="d-flex align-items-center">
+                                            <a href="" class="remove-wishlist btn btn-sm btn-secondary mr-3" pid="{{ item.id }}"><i class="bi bi-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="col-sm-4">
+            <div class="card" style="background: linear-gradient(135deg, #284326, #6eaa6b); border-radius: 10px; color:white;">                
+                <div class="card-body">
+                    <h3 style="font-family: Poppins; font-weight: bold;">Wishlist Summary</h3>
+                    <hr color="black">
+                    <ul class="list-group">
+                        {% for item in wishlist %}
+                        <!-- Individual product container red in the summary -->
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0" style="background-color: transparent;">
+                            <strong style="font-weight: 700; color: rgb(255, 255, 255);">{{ item.product.product_name }}</strong>
+                            <span style="color: #f3fff3;">PHP {{ item.product.current_price }}</span>                        
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+       
+
+
+        {% else %}
+        <h1 class="text-center mb-5" style="color: white; font-weight: bold; font-family: Poppins;">Your Wishlist is Empty</h1>
+        <h2 class="text-center mb-5" style="color: white;">Don't miss out on every exciting deals</h2>
+        <div class="d-flex justify-content-center">
+            <form class="d-flex" role="search" action="/search" method="POST">
+                <button class="btn" type="submit"
+                    style="background-color: #254336; color: white; padding: 8px 30px; font-size: 18px; border: 2px solid #254336; border-radius: 25px; cursor: pointer; text-decoration: none; font-family: Poppins;">
+                    Browse More...
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+
